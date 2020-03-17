@@ -1,0 +1,100 @@
+@import '../styles/common/variable.less';
+.el-plate-message {
+    .el-plate-head {
+        display: flex;
+        padding: 30px 20px 0 20px;
+        justify-content: space-between;
+        .el-plate-title {
+            font-size: 20px;
+            font-weight: 900;
+        }
+        .el-plate-create {
+            width: 120px;
+            height: 40px;
+            background: @head;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            color: @fff;
+            outline: none;
+            cursor: pointer;
+        }
+    }
+    .el-screen-area {
+        padding: 0 20px;
+        margin-top: 20px;
+        .el-war {
+            display: flex;
+            //
+            .el-war-name {
+                font-size: 18px;
+                .el-screenwar-txt {
+                    width: 140px;
+                    height: 30px;
+                    margin-left: 5px;
+                    outline: none;
+                    padding: 0 5px;
+                }
+            }
+            //
+            .el-search {
+                margin: 0 40px;
+                width: 100px;
+                height: 35px;
+                border: 1px solid @head;
+                color: @head;
+                font-size: 16px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            //
+            .el-state-screen {
+                font-size: 18px;
+                /deep/.el-input__inner {
+                    margin-left: 10px;
+                    height: 38px;
+                    width: 180px;
+                }
+            }
+        }
+        //
+        .el-date-screen {
+            display: flex;
+            margin-top: 20px;
+            /deep/.el-input__icon {
+                display: none;
+            }
+            /deep/.el-input__inner {
+                padding-left: 20px;
+                width: 160px;
+            }
+            /deep/.el-date-editor {
+                width: 160px;
+            }
+            //
+            .el-modify-date {
+                margin: 0 20px;
+                span {
+                    margin-right: 15px;
+                }
+            }
+            //
+            .el-create-date {
+                span {
+                    margin-right: 15px;
+                }
+            }
+            //
+            .el-screen-button {
+                margin: 0 40px;
+                width: 100px;
+                height: 35px;
+                border: 1px solid @head;
+                color: @head;
+                font-size: 16px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+        }
+    }
+}

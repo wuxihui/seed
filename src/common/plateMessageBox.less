@@ -1,0 +1,75 @@
+@import '../styles//common/variable.less';
+.el-plate-box {
+    /deep/.el-dialog__header {
+        text-align: center;
+        font-weight: 900;
+        font-size: 20px;
+    }
+    /deep/.el-dialog__footer {
+        text-align: center;
+    }
+    .el-infor-list {
+        padding-left: 20px;
+        //
+        .el-shares-list {
+            display: flex;
+            .el-shares-listInfor {
+                border: 1px solid @ccc;
+                width: 280px;
+                height: 150px;
+                overflow-y: auto;
+                .el-shares-delete {
+                    width: 12px;
+                    height: 12px;
+                    cursor: pointer;
+                }
+            }
+        }
+        //
+        .el-shares-name {
+            margin: 15px 0;
+        }
+        //
+        .el-shares-list {
+            margin: 20px 0;
+            .el-shares-listInfor {
+                margin-left: 10px;
+                ul {
+                    padding: 10px;
+                    li {
+                        display: flex;
+                        justify-content: space-between;
+                        margin: 5px 0;
+                        p {
+                            span {
+                                margin-right: 5px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        //
+        .el-war-state {
+            .el-war-title {
+                margin-right: 10px;
+            }
+        }
+        //
+        .el-add {
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+        .el-name {
+            font-size: 18px;
+        }
+        .el-name-txt {
+            width: 180px;
+            height: 30px;
+            outline: none;
+            margin-left: 10px;
+        }
+    }
+}

@@ -15,7 +15,7 @@
           <el-menu-item index="liveBroadcast">直播管理</el-menu-item>
           <el-submenu index="2">
             <template slot="title">工具管理</template>
-            <el-menu-item index="warZone">战区管理</el-menu-item>
+            <el-menu-item index="PlateManagement">战区管理</el-menu-item>
             <el-menu-item index="radar">雷达管理</el-menu-item>
             <el-menu-item index="radarComponent">雷达成分股管理</el-menu-item>
           </el-submenu>

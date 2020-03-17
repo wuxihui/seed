@@ -1,6 +1,7 @@
 <template>
     <div class="head">
-        合众汇富CMS系统
+        <div class="head-name">合众汇富CMS系统</div>
+        <div class="head-login">登录</div>
     </div>
 </template>
 

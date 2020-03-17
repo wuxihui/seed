@@ -3,10 +3,10 @@
       system
       <div class="box">
         <ul id="mostUl">
+          <li>页面内容</li>
+          <li>页面内容</li>
+          <li>页面内容</li>
           <li>我是需要的div</li>
-          <li>页面内容</li>
-          <li>页面内容</li>
-          <li>页面内容</li>
           <li>页面内容</li>
           <li>页面内容</li>
           <li>页面内容</li>
@@ -35,10 +35,10 @@
             if(content.trim() == data.trim()) {
                 console.log(888);
                 console.log(itemi);
-                let list = document.getElementById("mostUl").getElementsByTagName('li')[i].offsetTop;
+                let list = document.getElementById("mostUl").getElementsByTagName('li')[i].scrollHeight;
                 let targetUl = document.querySelector(".box");
                 console.log(targetUl.scrollTop);
-                targetUl.scrollTop = list - 15;
+                targetUl.scrollTop = list;
                 console.log(list);
                 console.log(targetUl.scrollTop);
                 
