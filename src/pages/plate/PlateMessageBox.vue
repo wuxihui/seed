@@ -127,9 +127,11 @@
                 </div>
                 <div class="el-war-state">
                     <span class="el-name el-war-title">战区状态</span>
-                    <el-radio v-model="radio" label="1">待发布</el-radio>
-                    <el-radio v-model="radio" label="2">已发布</el-radio>
-                    <el-radio v-model="radio" label="3">已停用</el-radio>
+                    <el-radio-group v-model="radio" @change="changeWarZoneRadio">
+                        <el-radio label="1">待发布</el-radio>
+                        <el-radio label="2">已发布</el-radio>
+                        <el-radio label="3">已停用</el-radio>
+                    </el-radio-group>
                 </div>
             </div>
             <span slot="footer" class="dialog-footer">
@@ -161,11 +163,14 @@ export default {
         },
         closeDialogPlateInfor() {
            this.$store.commit("plate/SET_DIALOG_PLATE_INFOR", false);
+        },
+        changeWarZoneRadio(val) {
+           console.log(val);
         }
     }
 }
 </script>
 
 <style scoped lang="less">
-@import '~@/common/plateMessageBox.less';
+@import '~@/common/plate/plateMessageBox.less';
 </style>

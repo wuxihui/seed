@@ -23,6 +23,11 @@ const router = new VueRouter({
       path: "/plateManagement",
       name: "plateManagement",
       component: () => import("../pages/plate/PlateManagement.vue")
+    },
+    {
+      path: "/customSectionManage",
+      name: "customSectionManage",
+      component: () => import("../pages/customPlate/CustomSectionManage.vue")
     }
     ]
   }

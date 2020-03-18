@@ -1,0 +1,83 @@
+@import '../../styles/common/variable.less';
+.el-cusmange-box {
+    /deep/.el-dialog__header {
+        text-align: center;
+        font-weight: 600;
+        font-size: 16px;
+    }
+    /deep/.el-dialog__footer {
+        text-align: center;
+    }
+    .el-custom-list {
+        .el-cusplate-name {
+            margin-left: 36px;
+            font-size: 18px;
+            .el-custom-plate {
+                width: 150px;
+                height: 30px;
+                padding: 0 5px;
+                outline: none;
+                margin-left: 10px;
+            }
+        }
+        //
+        .el-cusplate-shares {
+            margin: 20px 0 20px 36px;
+            font-size: 18px;
+            .el-plate-shares {
+                width: 150px;
+                height: 30px;
+                padding: 0 5px;
+                outline: none;
+                margin-left: 10px;
+            }
+        }
+        //
+        .el-cusplate-exist {
+            font-size: 18px;
+            .el-plate-exist {
+                width: 150px;
+                height: 30px;
+                padding: 0 5px;
+                outline: none;
+                margin-left: 10px;
+            }
+        }
+        //
+        .el-cusplate-list {
+            margin: 30px 0 0 30px;
+            font-size: 18px;
+            display: flex;
+            .el-plate-list {
+                border: 1px solid @ccc;
+                width: 280px;
+                height: 150px;
+                overflow-y: auto;
+                margin-left: 20px;
+                padding: 10px;
+                li {
+                    display: flex;
+                    justify-content: space-between;
+                    .el-custom-delete {
+                        width: 15px;
+                        height: 15px;
+                    }
+                    p {
+                        font-size: 16px;
+                        span {
+                            margin: 0 5px;
+                        }
+                    }
+                }
+            }
+        }
+        //
+        .el-cusplate-state {
+            margin-top: 20px;
+            span {
+                font-size: 18px;
+                margin: 0 20px 0 30px;
+            }
+        }
+    }
+}
