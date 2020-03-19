@@ -1,0 +1,26 @@
+@import '../../styles/common/variable.less';
+.el-radar-message {
+    padding: 30px;
+    //
+    .el-radar-head {
+        display: flex;
+        justify-content: space-between;
+        p:nth-child(1) {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        p:nth-child(2) {
+            width: 120px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            background: @head;
+            border-radius: 5px;
+            color: @fff;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            outline: none;
+        }
+    }
+}

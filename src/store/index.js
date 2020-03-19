@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import home from './home/index'
 import plate from './plate/index'
 import custom from './custom/index'
+import radar from './radar/index'
 
 Vue.use(Vuex)
 
@@ -11,6 +12,7 @@ export default new Vuex.Store({
   modules: {
       home,
       plate,
-      custom
+      custom,
+      radar
     }
 })

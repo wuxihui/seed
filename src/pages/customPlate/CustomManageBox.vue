@@ -13,10 +13,12 @@
                 <div class="el-cusplate-shares">
                     股票名称
                     <input type="text" v-model="sharesPlate" class="el-plate-shares"/>
+                    <img src="@/imgs/add.png" alt="添加" />
                 </div>
                 <div class="el-cusplate-exist">
                     已有板块名称
                     <input type="text" v-model="existPlate" class="el-plate-exist"/>
+                    <img src="@/imgs/add.png" alt="添加" />
                 </div>
                  <div class="el-cusplate-list">
                     股票列表

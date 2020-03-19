@@ -5,10 +5,12 @@
     .el-custom-head {
         display: flex;
         justify-content: space-between;
+        //
         .el-custom-title {
             font-size: 20px;
             font-weight: 600;
         }
+        //
         .el-custom-buttom {
             width: 120px;
             height: 40px;
@@ -23,11 +25,80 @@
     }
     //条件筛选区
     .el-custom-screen {
-        .el-plate-name {
+        margin-top: 20px;
+        //板块名称状态区
+        .el-namestate-screen {
             display: flex;
+             //
+            .el-plate-name {
+                display: flex;
+                p {
+                    width: 100px;
+                    font-size: 18px;
+                    line-height: 35px;
+                }
+                /deep/.el-input__inner {
+                    width: 160px;
+                    margin: 0 40px 0 10px;
+                }
+            }
+            //
+            .el-search-name {
+                color: @head;
+                border: 1px solid @head;
+                border-radius: 5px;
+                width: 100px;
+                height: 37px;
+                font-size: 16px;
+                margin: 0 70px 0 10px;
+                cursor: pointer;
+                outline: none;
+            }
+            //
+            .el-platestate-screen {
+                font-size: 18px;
+                .el-state-selected {
+                    margin-left: 10px;
+                }
+            }
+        }
+        //日期区
+        .el-custom-date {
+            display: flex;
+            margin: 20px 0;
+            font-size: 18px;
+            /deep/.el-input__icon {
+                display: none;
+            }
+            /deep/.el-input {
+                width: 160px;
+            }
             /deep/.el-input__inner {
-                width: 180px;
-                height: 35px;
+                padding: 0 10px;
+            }
+            //
+            .el-cuscreate-date {
+                span {
+                    margin-right: 15px;
+                }
+            }
+            //
+            .el-cusmodify-date {
+                margin: 0 30px;
+                span {
+                    margin-right: 15px;
+                }
+            }
+            //
+            .el-screen-button {
+                color: @head;
+                border: 1px solid @head;
+                border-radius: 5px;
+                width: 100px;
+                height: 37px;
+                outline: none;
+                cursor: pointer;
+                font-size: 16px;
             }
         }
     }

@@ -18,12 +18,25 @@
         </ul>
       </div>
       <div class="search" @click="handleSearch">搜索</div>
+
+      <div v-for="(v,i) in list" :key="i">
+        <input type="text" v-model="list[i].contactType" />
+        <button v-on:click="deleteNode(v, i)"> 删除 </button>
+      </div>
+      <button v-on:click="addNode()"> 添加 </button>
   </div>
 </template>
 
 <script>
  export default {
      name: "system",
+     data() {
+       return {
+          list:[
+            {contactType: '', number: ''}
+          ],
+       }
+     },
      methods: {
       handleSearch() {
         let li = document.getElementById("mostUl").getElementsByTagName("li");
@@ -33,18 +46,22 @@
             let content = itemi.innerHTML;
             let data = "我是需要的div";
             if(content.trim() == data.trim()) {
-                console.log(888);
-                console.log(itemi);
                 let list = document.getElementById("mostUl").getElementsByTagName('li')[i].scrollHeight;
                 let targetUl = document.querySelector(".box");
-                console.log(targetUl.scrollTop);
                 targetUl.scrollTop = list;
-                console.log(list);
-                console.log(targetUl.scrollTop);
-                
             }
         }
-       
+      },
+      //添加标本div
+      addNode:function() {
+          this.list.push({contactType: '', number: ''});
+      },
+      //删除样本div
+      deleteNode:function(v, i) {
+        console.log(v);
+        console.log(i);
+        
+          this.list.splice(i,1);  //删除index为i,位置的数组元素
       }
      }
  }

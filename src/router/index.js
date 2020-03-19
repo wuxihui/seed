@@ -28,6 +28,11 @@ const router = new VueRouter({
       path: "/customSectionManage",
       name: "customSectionManage",
       component: () => import("../pages/customPlate/CustomSectionManage.vue")
+    },
+    {
+      path: "/radarMessage",
+      name: "radarMessage",
+      component: () => import("../pages/radar/RadarMessage.vue")
     }
     ]
   }

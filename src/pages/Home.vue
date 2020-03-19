@@ -17,7 +17,7 @@
             <template slot="title">工具管理</template>
             <el-menu-item index="PlateManagement">战区管理</el-menu-item>
             <el-menu-item index="CustomSectionManage">自定义板块管理</el-menu-item>
-            <el-menu-item index="radar">雷达管理</el-menu-item>
+            <el-menu-item index="RadarMessage">雷达管理</el-menu-item>
             <el-menu-item index="radarComponent">雷达成分股管理</el-menu-item>
           </el-submenu>
         </el-menu>
