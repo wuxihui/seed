@@ -12,14 +12,68 @@
     }
     //创建雷达内容区
     .el-content {
-       .el-radar-plate {
+        margin-left: 30px;
+        font-size: 18px;
+        input {
+            width: 130px;
+            height: 25px;
+            outline: none;
+            padding: 0 10px;
+        }
+        //
+        .el-radar-name {
+            margin-left: 20px;
+            input {
+                margin-left: 10px;
+            }
+        }
+        //
+        .el-radar-plate {
            display: flex;
-        .el-add-palte {
-                img {
-                    width: 15px;
-                    height: 15px;
+           margin: 20px 0 20px 20px;
+        p {
+           margin-right: 15px;
+        }
+        .el-addplate-button {
+            img {
+                width: 14px;
+                height: 14px;
+                cursor: pointer;
+            }
+                .el-add-palte {
+                    margin-bottom: 10px;
+                    span {
+                        font-size: 14px;
+                        margin: 0 10px;
+                    }
+                    img {
+                        width: 14px;
+                        height: 14px;
+                        cursor: pointer;
+                    }
                 }
             }
-       }
+        }
+        //
+        .el-sen {
+            margin: 20px 10px 20px 0;
+            /deep/.el-switch__core {
+                margin-left: 10px;
+            }
+        }
+        //
+        .el-radar-state {
+            margin: 20px 0 20px 20px;
+            /deep/.el-radio-group {
+                margin-left: 10px;
+            }
+        }
+        //
+        .el-display-sort {
+            margin-left: 20px;
+            input {
+                margin-left: 10px;
+            }
+        }
     }
 }

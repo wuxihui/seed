@@ -49,6 +49,7 @@
                 let list = document.getElementById("mostUl").getElementsByTagName('li')[i].scrollHeight;
                 let targetUl = document.querySelector(".box");
                 targetUl.scrollTop = list;
+                console.log(targetUl);
             }
         }
       },

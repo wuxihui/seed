@@ -33,6 +33,11 @@ const router = new VueRouter({
       path: "/radarMessage",
       name: "radarMessage",
       component: () => import("../pages/radar/RadarMessage.vue")
+    },
+    {
+      path: "/radarComShareMessage",
+      name: "radarComShareMessage",
+      component: () => import("../pages/radar/RadarComShareMessage.vue")
     }
     ]
   }

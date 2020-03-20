@@ -1,0 +1,46 @@
+@import '../../styles/common/variable.less';
+.el-addcom-shares {
+    /deep/.el-dialog__header {
+        text-align: center;
+    }
+    /deep/.el-dialog__footer {
+        text-align: center;
+    }
+    /deep/.el-dialog__title {
+        font-size: 18px;
+        font-weight: 600;
+    }
+    //成分股内容区
+    .el-comshares-content {
+        img {
+            width: 14px;
+            height: 14px;
+            cursor: pointer;
+        } 
+        //
+        // .el-compradar-name {
+            
+        // }
+        //
+        .el-compshare-list {
+            display: flex;
+            .el-list-content {
+                width: 220px;
+                height: 140px;
+                overflow-y: auto;
+                border: 1px solid @ccc;
+                padding: 5px;
+                li {
+                    margin: 5px 0;
+                }
+                span {
+                    margin: 0 5px;
+                    font-size: 14px;
+                }
+               img {
+                   margin-left: 50px;
+               }
+            }
+        }
+    }
+}

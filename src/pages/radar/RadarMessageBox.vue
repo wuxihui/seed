@@ -14,12 +14,30 @@
                     <p>创建板块</p>
                     <div class="el-addplate-button">
                         <div v-for="(v, i) in createPlateList" :key="i" class="el-add-palte">
-                            <input type="text" v-model="createPlateList[i].createPlateName" :placeholder="'请输入板块' + (i + 1) + '名字'"/>
+                            <input type="text" v-model="createPlateList[i]" :placeholder="'请输入板块' + (i + 1) + '名字'"/>
                             <span>板块{{i + 1}}</span>
                             <img src="@/imgs/fork.png" @click="deletePlate(i)" />
                         </div>
-                        <button @click="addPlate()">添加</button>
+                        <img src="@/imgs/add.png" alt="添加" @click="addPlate()" class="el-add" />
                     </div>
+                </div>
+                <div class="el-sen">
+                    划分敏感度
+                    <el-switch
+                    v-model="senValue">
+                    </el-switch>
+                </div>
+                <div class="el-radar-state">
+                    雷达状态
+                    <el-radio-group v-model="radarState">
+                        <el-radio :label="1">待发布</el-radio>
+                        <el-radio :label="2">已发布</el-radio>
+                        <el-radio :label="3">已停用</el-radio>
+                    </el-radio-group>
+                </div>
+                <div class="el-display-sort">
+                    展示排序
+                    <input type="text" v-model="sortValue" />
                 </div>
             </div>
             <span slot="footer" class="dialog-footer">
@@ -41,6 +59,9 @@ export default {
         return {
             radarName: "",
             createPlateList: [],
+            senValue: false,
+            radarState: 0,
+            sortValue: "",
         }
     },
     methods: {
@@ -52,7 +73,7 @@ export default {
         },
         //添加板块
         addPlate() {
-           this.createPlateList.push({createPlateName: ""});
+           this.createPlateList.push("");
         },
         //删除板块
         deletePlate(i) {
