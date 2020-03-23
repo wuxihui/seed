@@ -3,7 +3,7 @@
         <el-dialog
         title="添加成分股"
         :visible.sync="dialogAddComShares"
-        width="500px"
+        width="600px"
         :before-close="closeAddComShares">
         <div class="el-comshares-content">
             <div class="el-belong-radar">
@@ -93,15 +93,21 @@ export default {
             sharesList: [
                 { name: "贵州茅台", code: "600519" },
                 { name: "青岛啤酒", code: "600600" },
-                { name: "白云机场", code: "600004" },
                 { name: "恒生电子", code: "600570" },
                 { name: "奋达科技", code: "003681" },
                 { name: "包钢股份", code: "600010" },
                 { name: "雪花啤酒", code: "600251" },
-                { name: "黄花机场", code: "600214" },
                 { name: "芬达可乐", code: "632010" },
                 { name: "哈啤哈啤", code: "600234" },
+                { name: "坂田地铁", code: "600126" },
+                { name: "五一广场", code: "600121" },
+                { name: "八一广场", code: "600135" },
                 { name: "后瑞机场", code: "600123" },
+                { name: "宝安机场", code: "600124" },
+                { name: "白云机场", code: "600004" },
+                { name: "黄花机场", code: "600214" },
+                { name: "宝安中心", code: "600136" },
+                { name: "前海湾站", code: "600137" },
             ],
 
             radars: [
@@ -113,8 +119,8 @@ export default {
                 { value: "2", label: "深港通" }
             ],
             sens: [
-                { value: "1", label: "中间" },
-                { value: "2", label: "外延" }
+                { value: "1", label: "外延" },
+                { value: "2", label: "中间" }
             ]
         }
     },
@@ -140,31 +146,58 @@ export default {
         addCompRadarMember() {
             if(this.compRadarName) {
                 this.sharesList.push({ name: this.compRadarName, code: "" });
+            } else {
+                this.$message({
+                    message: "请输入股票名称",
+                    type: "warning",
+                    offset: window.innerHeight / 2
+                })
             }
         },
         addCompPlateMember() {
             if(this.compPlateName) {
                 this.sharesList.push({ name: this.compPlateName, code: "" });
+            } else {
+                this.$message({
+                    message: "请输入板块名称",
+                    type: "warning",
+                    offset: window.innerHeight / 2
+                })
             }
         },
+        //搜索字符
         searchListClick() {
             if(this.sharesNameSearch) {
+                let itemi = "";
                 for(let i=0; i<this.sharesList.length; i++) {
-                    let itemi = this.sharesList[i];
-                    if(itemi.name.indexOf(this.sharesNameSearch) >= 0) {
-                        // let sharesList = document.getElementById("el-sharesList").getElementsByTagName("li")[i].scrollHeight;
+                    itemi = this.sharesList[i];
+                    if(itemi.name.indexOf(this.sharesNameSearch) != -1) {
+                        let sharesList = document.getElementById("el-sharesList").getElementsByTagName("li")[i];
+                        let sharesListOne = document.getElementById("el-sharesList").getElementsByTagName("li")[0];
                         let searchList = document.querySelector(".el-list-content");
-                        
-                        console.log(searchList.scrollTop);
-                        // searchList.scrollTop = sharesList;
-                        console.log(888);
-                    }
+                        let height = sharesListOne.offsetTop + sharesList.scrollHeight + sharesList.offsetHeight + sharesList.clientHeight + 10;
+                        searchList.scrollTop = sharesList.offsetTop - height;
+                        return;
+                    } 
                 }
+                if(itemi.name.indexOf(this.sharesNameSearch) == -1) {
+                    this.$message({
+                        message: "搜索内容不存在",
+                        type: "warning",
+                        offset: window.innerHeight / 2
+                    })
+                }
+            } else {
+                this.$message({
+                    message: "请输入搜索内容",
+                    type: "warning",
+                    offset: window.innerHeight / 2
+                });
             }
         },
-        //列表搜索回车事件
+        //列表搜索键盘回车事件
         searchEnterClick() {
-            console.log(66);
+            this.searchListClick();
         }
     }
 }

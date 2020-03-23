@@ -12,24 +12,49 @@
     }
     //成分股内容区
     .el-comshares-content {
+        color: @black;
+        font-size: 18px;
+        select {
+            margin-left: 3px;
+            width: 140px;
+            height: 30px;
+            outline: none;
+        }
+        input {
+            width: 126px;
+            height: 28px;
+            margin: 0 5px 0 2px;
+            padding: 0 5px;
+            outline: none;
+        }
         img {
             width: 14px;
             height: 14px;
             cursor: pointer;
         } 
         //
-        // .el-compradar-name {
-            
-        // }
+        .el-belong-radar {
+            margin-left: 100px;
+        }
+        //
+        .el-compplate-name, .el-compradar-name, .el-belong-plate {
+            margin: 20px 0 20px 100px;
+        }
+        //
+        .el-belong-sen {
+            margin: 20px 0 20px 80px;
+        }
         //
         .el-compshare-list {
             display: flex;
+            margin: 20px 0 20px 100px;                                                                                                                                     
             .el-list-content {
                 width: 220px;
                 height: 140px;
                 overflow-y: auto;
                 border: 1px solid @ccc;
                 padding: 5px;
+                margin-left: 5px;
                 li {
                     margin: 5px 0;
                 }
@@ -40,6 +65,15 @@
                img {
                    margin-left: 50px;
                }
+            }
+        }
+        //
+        .el-sharelist-search {
+            margin-left: 60px;
+            img {
+                margin-left: 5px;
+                position: relative;
+                top: 3px;
             }
         }
     }

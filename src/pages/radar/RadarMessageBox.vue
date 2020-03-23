@@ -27,6 +27,18 @@
                     v-model="senValue">
                     </el-switch>
                 </div>
+                <div class="el-sen-grade" v-if="senValue">
+                    所属敏感度
+                    <select name="sen" @change="changeBelongSen">
+                        <option selected disabled style="display: none" value="">请选择所属敏感度</option>
+                        <option
+                        v-for="item in senList"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                        ></option>
+                    </select>
+                </div>
                 <div class="el-radar-state">
                     雷达状态
                     <el-radio-group v-model="radarState">
@@ -62,6 +74,10 @@ export default {
             senValue: false,
             radarState: 0,
             sortValue: "",
+            senList: [
+                { value: "1", label: "中间" },
+                { value: "2", label: "外延" }
+            ]
         }
     },
     methods: {
@@ -78,8 +94,11 @@ export default {
         //删除板块
         deletePlate(i) {
             this.createPlateList.splice(i, 1);
+        },
+        changeBelongSen(e) {
+            console.log(e.target.value);
         }
-    }
+    } 
 }
 </script>
 

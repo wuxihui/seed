@@ -1,6 +1,14 @@
 @import '../../styles/common/variable.less';
 .el-radarcom-message {
     padding: 30px;
+    /deep/.el-dialog__header {
+        text-align: center;
+        font-size: 18px;
+        font-weight: 600;
+    }
+    /deep/.el-dialog__footer {
+        text-align: center;
+    }
     //title标题
     .el-radarcom-head {
         display: flex;
@@ -18,6 +26,82 @@
             border-radius: 5px;
             cursor: pointer;
             outline: none;
+        }
+    }
+    //条件筛选区
+    .el-condition-screen {
+        margin-top: 20px;
+        font-size: 18px;
+        //
+        .el-name-search {
+            display: flex;
+            line-height: 40px;
+            /deep/.el-input__inner {
+                width: 180px;
+            }
+            /deep/.el-input {
+                width: 180px;
+                margin: 0 100px 0 10px;
+            }
+            button {
+                color: @head;
+                border: 1px solid @head;
+                width: 100px;
+                height: 37px;
+                border-radius: 5px;
+                font-size: 16px;
+                outline: none;
+                cursor: pointer;
+            }
+        }
+        //
+        .el-more-search {
+            display: flex;
+            margin: 20px 0;
+            /deep/.el-input__inner {
+                margin-left: 5px;
+            }
+            .el-plate-search {
+                margin: 0 50px;
+            }
+            button {
+                margin-left: 50px;
+                color: @head;
+                border: 1px solid @head;
+                border-radius: 5px;
+                font-size: 16px;
+                width: 100px;
+                height: 37px;
+            }
+        }
+    }
+    // 编辑雷达
+    .el-edit-content {
+        padding: 0 20px;
+        font-size: 18px;
+        color: @black;
+        select {
+            margin-left: 5px;
+            width: 132px;
+            height: 30px;
+            outline: none;
+        }
+        input {
+            padding: 0 5px;
+            width: 120px;
+            height: 28px;
+            margin-left: 5px;
+            outline: none;
+        }
+        //
+        .el-edit-name {
+            margin-left: 30px;
+        }
+        .el-eidt-plate, .el-edit-radar {
+            margin: 20px 0 20px 30px;
+        }
+        .el-edit-sen {
+            margin-left: 12px;
         }
     }
 }
