@@ -70,42 +70,6 @@
                 <el-input v-model="searchShearsName" placeholder="请输入股票名称"></el-input>
                 <button>搜索</button>
             </div>
-            <div class="el-more-search">
-                <div class="el-radar-search">
-                    雷达
-                    <el-select v-model="radarSearch" placeholder="请选择雷达" @change="changeRadarName">
-                        <el-option
-                        v-for="item in radarList"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                        </el-option>
-                    </el-select>
-                </div>
-                <div class="el-plate-search">
-                    板块
-                    <el-select v-model="plateSearch" placeholder="请选择板块" @change="changePlateName">
-                        <el-option
-                        v-for="item in plateList"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                        </el-option>
-                    </el-select>
-                </div>
-                <div class="el-sen-search">
-                    敏感度
-                    <el-select v-model="senSearch" placeholder="请选择敏感度" @change="changeSenName">
-                        <el-option
-                        v-for="item in senList"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                        </el-option>
-                    </el-select>
-                </div>
-                <button>搜索</button>
-            </div>
         </div>
         <!-- 列表展示区 -->
         <div class="el-compradar-list">

@@ -1,7 +1,7 @@
 <template>
     <div class="el-custom-manage">
         <!-- 创建板块 -->
-        <custom-manage-box></custom-manage-box>
+        <warzone-component-box></warzone-component-box>
         <!-- 编辑板块 -->
         <div class="el-cusmange-box">
             <el-dialog
@@ -55,7 +55,7 @@
         </div>
         <!-- 标题title -->
         <div class="el-custom-head">
-            <div class="el-custom-title">工具管理-自定义板块管理</div>
+            <div class="el-custom-title">自定义板块管理</div>
             <button class="el-custom-buttom" @click="createCustomPlate">创建</button>
         </div>
         <!-- 条件筛选区 -->
@@ -163,11 +163,11 @@
 </template>
 
 <script>
-import CustomManageBox from './CustomManageBox.vue';
+import WarZoneComponentBox from './WarZoneComponentBox.vue';
 export default {
-    name: "customSectionManage",
+    name: "warZoneComponent",
     components: {
-        'custom-manage-box': CustomManageBox
+        'warzone-component-box': WarZoneComponentBox
     },
     data() {
         return {
@@ -252,6 +252,6 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import '~@/common/customPlate/customSectionManage.less';
-@import '~@/common/customPlate/customManageBox.less';
+@import '~@/common/plate/warZoneComponent.less';
+@import '~@/common/plate/warZoneComponentBox.less';
 </style>

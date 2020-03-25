@@ -27,7 +27,7 @@
                     v-model="senValue">
                     </el-switch>
                 </div>
-                <div class="el-sen-grade" v-if="senValue">
+                <!-- <div class="el-sen-grade" v-if="senValue">
                     所属敏感度
                     <select name="sen" @change="changeBelongSen">
                         <option selected disabled style="display: none" value="">请选择所属敏感度</option>
@@ -38,7 +38,7 @@
                         :value="item.value"
                         ></option>
                     </select>
-                </div>
+                </div> -->
                 <div class="el-radar-state">
                     雷达状态
                     <el-radio-group v-model="radarState">
@@ -62,10 +62,12 @@
 
 <script>
 import { mapState } from 'vuex';
+import Radar from '../../api/radar';
 export default {
     name: "radarMessageBox",
     computed: {
-        ...mapState('radar', ['dialogCreateRadar'])
+        ...mapState('app', ['rdxgStatusToken']),
+        ...mapState('radar', ['dialogCreateRadar', 'radarList'])
     },
     data() {
         return {
@@ -73,19 +75,74 @@ export default {
             createPlateList: [],
             senValue: false,
             radarState: 0,
-            sortValue: "",
-            senList: [
-                { value: "1", label: "中间" },
-                { value: "2", label: "外延" }
-            ]
+            sortValue: null,
+            // senList: [
+            //     { value: "1", label: "中间" },
+            //     { value: "2", label: "外延" }
+            // ]
         }
     },
     methods: {
         closeDialogCreateRadar() {
             this.$store.commit("radar/SET_DIALOG_CREATE_RADAR", false);
+            this.empty();
+        },
+        //清空弹框数据
+        empty() {
+            this.radarName = "";
+            this.createPlateList = "";
+            this.senValue = false;
+            this.radarState = 0;
+            this.sortValue = "";
         },
         dialogCreateRadarTrue() {
-            this.$store.commit("radar/SET_DIALOG_CREATE_RADAR", false);
+            if(this.radarName) {
+                let regexp = /^[1-9]+[0-9]*$/;
+                let radar = {
+                    title: this.radarName,
+                    statusId: this.radarState,
+                    seqIndex: this.sortValue,
+                    sensitivityFlag: this.senValue,
+                    blockTitles: this.createPlateList
+                };
+                if(this.sortValue) {
+                    if(regexp.test(this.sortValue)) {
+                        for(let i=0; i<this.radarList.length; i++) {
+                            let itemi = this.radarList[i].seqIndex;
+                            if(this.sortValue == itemi) {
+                                this.$message({
+                                    message: "该展示顺序已被占用",
+                                    type: "warning",
+                                    offset: window.innerHeight / 2
+                                });
+                                return;
+                            }
+                        }
+                        Radar.buildRadar(radar);
+                        location.reload();
+                        this.$store.commit("radar/SET_DIALOG_CREATE_RADAR", false);
+                        this.empty();
+                    } else {
+                        this.$message({
+                            message: "输入格式不正确",
+                            type: "warning",
+                            offset: window.innerHeight / 2
+                        })
+                    }
+                } else {
+                    this.$message({
+                        message: "请输入展示顺序",
+                        type: "warning",
+                        offset: window.innerHeight / 2
+                    })
+                }
+            } else {
+                this.$message({
+                    message: "请填写雷达名称",
+                    type: "warning",
+                    offset: window.innerHeight / 2
+                })
+            }
         },
         //添加板块
         addPlate() {

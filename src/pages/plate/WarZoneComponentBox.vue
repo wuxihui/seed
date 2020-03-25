@@ -54,9 +54,9 @@
 <script>
 import { mapState } from 'vuex';
 export default {
-    name: "customManageBox",
+    name: "warZoneComponentBox",
     computed: {
-        ...mapState('custom', ['dialogCreatePlate'])
+        ...mapState('plate', ['dialogCreatePlate'])
     },
     data() {
         return {
@@ -68,10 +68,10 @@ export default {
     },
     methods: {
         createDialogCreatePlate() {
-            this.$store.commit("custom/SET_DIALOG_CREATE_PLATE", false);    
+            this.$store.commit("plate/SET_DIALOG_CREATE_PLATE", false);    
         },
         closeDialogCreatePlate() {
-            this.$store.commit("custom/SET_DIALOG_CREATE_PLATE", false);
+            this.$store.commit("plate/SET_DIALOG_CREATE_PLATE", false);
         },
         changecustomPlateRadio(val) {
             console.log(val);
@@ -81,5 +81,5 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import '~@/common/customPlate/customManageBox.less';
+@import '~@/common/plate/warZoneComponentBox.less';
 </style>

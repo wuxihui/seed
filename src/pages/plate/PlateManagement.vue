@@ -2,7 +2,6 @@
     <div class="el-plate-message">
         <!-- 创建战区信息 -->
         <plate-message-box></plate-message-box>
-
         <!-- 修改战区 -->
         <div class="el-plate-box">
             <el-dialog
@@ -57,7 +56,7 @@
 
         <!-- header    分割线 -->
         <div class="el-plate-head">
-            <div class="el-plate-title">工具管理-战区管理</div>
+            <div class="el-plate-title">战区管理</div>
             <button class="el-plate-create" @click="createInforBox">创建</button>
         </div>
 

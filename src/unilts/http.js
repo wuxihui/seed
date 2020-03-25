@@ -1,57 +1,54 @@
 import axios from 'axios';
-import { Loaing, Message } from "element-ui";
+import { Message } from "element-ui";
 // import { stringify } from "querystring";
 
 const http = axios.create();
-let loading = null;
 
-http.defaults.baseUrl = process.env.NODE_ENV === 'production' ? "线上" : "测试";
-http.defaults.timeout = 10000;
+http.defaults.baseURL = process.env.VUE_APP_TC_RD_URL;
+// http.defaults.timeout = 10000;
 
-//处理接口的公共参数
-http.interceptors.request.use(function(config) {
-    //加载动画显示
-    loading = Loaing.service({
-        lock: true,
-        text: "Loading",
-    });
-    //公共参数
-    // let params = {}
-    // 当url已经有参数时： url + & + api检验参数
-    //config.url = ((config.url.indexOf('=') == -1) ? config.url : config.url + '&') + stringify(params);
-    return config;
-}, function(error) {
-    //加载动画隐藏
-    loading && loading.close();
-
-    // Do something with request error
-    return Promise.reject(error);
-});
+http.interceptors.request.use(
+	config => {
+		if (config.url.startsWith('http:')) {
+			// 站点外网的请求
+			return config;
+		}
+		const loginStatus = window.loginStatus;
+		//config 为请求的一些配置 例如：请求头 请求时间 Token 等
+		config.timeout = 30 * 1000; //请求响应时间
+		if (loginStatus.token) {
+			config.headers.Authorization = 'Bearer ' + loginStatus.token;
+		}
+		// console.log('axios. ', config, loginStatus);
+		return config;
+	},
+	error => {
+		return Promise.reject(error);
+	}
+);
 
 http.interceptors.response.use(response => {
-    //加载动画隐藏
-    loading && loading.close();
 
     let res = response.data;
-    if(res.status === 200) {
+    if(res.code === 0) {
         return res;
     } else {
         //错误信息
         Message({
             type: "error",
-            //信息提示字段要和后台给的字段一致
-            message: res.Msg
+            message: res.msg,
+            offset: window.innerHeight / 2
         });
         return false;
     }
 }, error => {
-    //加载动画隐藏
-    loading && loading.close();
-    Message({
-        type: "error",
-        //信息提示字段要和后台给的字段一致
-        message: error.Msg
-    })
+    // Message({
+    //     type: "error",
+    //     //信息提示字段要和后台给的字段一致
+    //     message: error.msg
+    // })
+    console.log(error);
+    
 });
 
 export default http;

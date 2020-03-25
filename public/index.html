@@ -1,13 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
+
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title>热点选股功能模块管理后台</title>
+    <link rel="icon" href="<%= VUE_APP_BASE_URL %>favicon.ico">
+    <title><% process.env.VUE_APP_TITLE %></title>
   </head>
+
   <body>
-    <div id="app"></div>
+    <div id="app">正在登录...</div>
   </body>
+  <script type="text/javascript">
+    //根据QueryString参数名称获取值
+		function getQueryStringByName(name) {
+			var result = location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+			if (result == null || result.length < 1) {
+				return "";
+			}
+			return result[1];
+    }
+    
+		//解决用户手动刷新浏览器后，原来的socketid失效的问题
+		document.title = '正在登录...';
+    window.loginUrl = "<%= VUE_APP_UC_LOGIN_URL %>";  
+    var loginStatus = JSON.parse(localStorage.getItem("rdxgStatus") || '{}');
+  
+		// 解析参数
+		window.loginStatus = loginStatus;
+		var token = getQueryStringByName('ct');
+    var sid = getQueryStringByName('cc');
+  
+		if (token.length > 0) {
+			var ds = {
+				'token': token,
+				'sessionId': sid,
+				'ts': new Date().getTime()
+      };
+      localStorage.setItem('rdxgStatus', JSON.stringify(ds));
+      window.loginStatus = ds;
+			window.setTimeout(function () {
+        window.location.href = '<%= VUE_APP_BASE_URL %>index.html';
+			}, 1000);
+		} else {
+			// 去登录
+			if (!loginStatus.token) {
+				window.setTimeout(function () {
+          window.location.href = window.loginUrl;
+				}, 1000)
+      } else {
+        document.title = '<%= process.env.VUE_APP_TITLE %>';
+      }
+		}
+  </script>
 </html>

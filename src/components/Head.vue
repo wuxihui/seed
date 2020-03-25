@@ -1,6 +1,6 @@
 <template>
     <div class="head">
-        <div class="head-name">行情中心管理系统</div>
+        <div class="head-name">行情中心</div>
         <div class="head-login">登录</div>
     </div>
 </template>

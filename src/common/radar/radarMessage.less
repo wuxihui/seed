@@ -27,7 +27,7 @@
     .el-radar-condition {
         //
         .el-radarcon-name {
-            margin-top: 20px;
+            margin: 20px 0;
             display: flex;
             font-size: 18px;
             p {
@@ -53,57 +53,7 @@
                 outline: none;
             }
         }
-        //
-        .el-radar-date {
-            display: flex;
-            margin: 20px 0;
-            font-size: 18px;
-            span {
-                margin-right: 12px;
-            }
-            //
-            .el-radarcre-date {
-                /deep/.el-input__icon {
-                    display: none;
-                }
-            }
-            //
-            .el-radarmod-date {
-                /deep/.el-input__icon {
-                    display: none;
-                }
-                span {
-                    margin-left: 25px;
-                }
-            }
-            //
-            .el-visible {
-                span {
-                    margin-left: 25px;
-                }
-            }
-            //
-            .el-radarscr-button {
-                color: @head;
-                border: 1px solid @head;
-                border-radius: 5px;
-                width: 100px;
-                height: 37px;
-                margin-left: 100px;
-                cursor: pointer;
-                outline: none;
-                font-size: 16px;
-            }
-            
-            /deep/.el-input {
-                width: 160px;
-            }
-
-            /deep/.el-input__inner {
-                padding: 0 15px;
-                width: 160px;
-            }
-        } 
+       
     }
     //表格列表区
     .el-result-list {
@@ -111,4 +61,8 @@
             margin: 0 10px 0 0;
         }
     }
+    //分页处理
+    // .el-page {
+    //     margin: 40px 0;
+    // }
 }

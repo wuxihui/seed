@@ -46,7 +46,7 @@
         </div>
         <!-- 标题title -->
         <div class="el-radar-head">
-            <p>工具管理-雷达管理</p>
+            <p>雷达管理</p>
             <p @click="createRadarClick">创建</p>
         </div>
         <!-- 条件筛选区 -->
@@ -54,55 +54,13 @@
             <div class="el-radarcon-name">
                 <p>雷达名称</p>
                 <el-input v-model="radarConName" placeholder="请输入雷达名称"></el-input>
-                <button>搜索</button>
-            </div>
-            <div class="el-radar-date">
-                <div class="el-radarcre-date">
-                    <span>创建日期</span>
-                    <el-date-picker
-                    v-model="radarCreateStartDate"
-                    type="date"
-                    placeholder="请选择创建日期">
-                    </el-date-picker>
-                    ~
-                    <el-date-picker
-                    v-model="radarCreateEndDate"
-                    type="date"
-                    placeholder="请选择创建日期">
-                    </el-date-picker>
-                </div>
-                <div class="el-radarmod-date">
-                    <span>最近修改日期</span>
-                    <el-date-picker
-                    v-model="radarModifyStartDate"
-                    type="date"
-                    placeholder="请选择创建日期">
-                    </el-date-picker>
-                    ~
-                    <el-date-picker
-                    v-model="radarModifyEndDate"
-                    type="date"
-                    placeholder="请选择创建日期">
-                    </el-date-picker>
-                </div>
-                <div class="el-visible">
-                    <span>是否可见</span>
-                    <el-select v-model="isSeeValue" placeholder="请选择" @change="changeIsSeeValue">
-                        <el-option
-                        v-for="item in isSees"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                        </el-option>
-                    </el-select>
-                </div>
-                <button class="el-radarscr-button">筛选</button>
+                <button @click="searchRadar">搜索</button>
             </div>
         </div>
         <!-- 列表表格区 -->
         <div class="el-result-list">
             <el-table
-                :data="tableData"
+                :data="radarList"
                 border
                 style="width: 100%"
                 @selection-change="handleSelectionChange">
@@ -112,13 +70,13 @@
                 width="55">
                 </el-table-column>
                 <el-table-column
-                prop="number"
+                prop="id"
                 label="编号"
                 align="center"
-                width="180">
+                width="80">
                 </el-table-column>
                 <el-table-column
-                prop="name"
+                prop="title"
                 label="雷达名称"
                 align="center"
                 width="180">
@@ -127,30 +85,57 @@
                 prop="code"
                 label="雷达代码"
                 align="center"
-                width="180">
+                width="120">
                 </el-table-column>
                 <el-table-column
-                prop="comNumber"
+                prop="totalStock"
                 label="成分股数量"
                 align="center"
-                width="180">
+                width="120">
                 </el-table-column>
                 <el-table-column
-                prop="havePlate"
+                prop="blockSummary"
                 label="所含板块"
                 align="center"
-                width="180">
+                width="200">
                 </el-table-column>
                 <el-table-column
-                prop="state"
+                label="是否划分敏感度"
+                align="center"
+                width="120">
+                <template slot-scope="scope" align="center">
+                   <span v-if="scope.row.sensitivityFlag">是</span>
+                   <span v-else>否</span>
+                </template>
+                </el-table-column>
+                <el-table-column
+                prop="buildTime"
+                label="创建日期"
+                align="center"
+                width="150">
+                </el-table-column>
+                <el-table-column
+                prop="updateTime"
+                label="最近修改日期"
+                align="center"
+                width="150">
+                </el-table-column>
+                <el-table-column
+                prop="statusTitle"
                 label="状态"
                 align="center"
-                width="180">
+                width="80">
                 </el-table-column>
                 <el-table-column
-                prop="sort"
+                prop="seqIndex"
                 align="center"
+                width="80"
                 label="排序">
+                </el-table-column>
+                <el-table-column
+                prop="buildTime"
+                align="center"
+                label="最近运算时间">
                 </el-table-column>
                 <el-table-column
                 fixed="right"
@@ -159,22 +144,40 @@
                 width="120">
                 <template slot-scope="scope" align="center">
                     <el-button @click="editRadarClick(scope.row)" type="text" size="small">编辑</el-button>
-                    <el-button type="text" size="small">删除</el-button>
+                    <el-button @click="deleteRowRadar(scope.row)" type="text" size="small">删除</el-button>
                     <el-button type="text" size="small">添加</el-button>
                     <el-button type="text" size="small">开启</el-button>
                 </template>
                 </el-table-column>
             </el-table>
         </div>
+        <!-- 分页器 -->
+        <!-- <div class="el-page">
+            <el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page.sync="currentPage"
+            :page-size="10"
+            layout="prev, pager, next, jumper"
+            :total="radarTotal">
+            </el-pagination>
+        </div> -->
     </div>
 </template>
 
 <script>
 import RadarMessageBox from './RadarMessageBox';
+import { mapState } from 'vuex';
+import Radar from '../../api/radar';
 export default {
     name: "radar",
     components: {
         "radar-message-box": RadarMessageBox
+    },
+    computed: {
+        ...mapState('app', ['rdxgStatusToken']),
+        ...mapState('radar', ['radarList', "radarTotal"])
     },
     data() {
         return {
@@ -222,8 +225,14 @@ export default {
             sen: "否",
             senBoolen: true,
             }],
-            multipleSelection: []
+            multipleSelection: [],
+
+            currentPage: 1
         }
+    },
+    created() {
+        let allTitle = { title: "", token: this.rdxgStatusToken.token };    
+        Radar.getRadarInforList(allTitle);
     },
     methods: {
         createRadarClick() {
@@ -240,10 +249,10 @@ export default {
             console.log(row);
             this.dialogEditRadar = true;
             //
-            this.editRadarName = row.name;
-            this.editPlateList = row.havePlate.split("、");
-            this.editSortValue = row.sort;
-            this.editRadarState = row.stateCode;
+            // this.editRadarName = row.name;
+            // this.editPlateList = row.havePlate.split("、");
+            // this.editSortValue = row.sort;
+            // this.editRadarState = row.stateCode;
         },
         //关闭编辑雷达
         closeEditRadar() {
@@ -258,6 +267,28 @@ export default {
         },
         addEditPlate() {
             this.editPlateList.push("");
+        },
+        //搜索雷达
+        searchRadar() {
+            let allTitle = { title: this.radarConName, token: this.rdxgStatusToken.token };    
+            Radar.getRadarInforList(allTitle);
+        },
+        //删除雷达
+        deleteRowRadar(row) {
+            console.log(row);
+            this.$confirm('是否确认删除?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+            }).then(() => {
+                Radar.deleteRadar(row);
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除',
+                    offset: window.innerHeight / 2
+                });          
+            });
         }
     }
 }
