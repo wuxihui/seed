@@ -151,18 +151,6 @@
                 </el-table-column>
             </el-table>
         </div>
-        <!-- 分页器 -->
-        <!-- <div class="el-page">
-            <el-pagination
-            background
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page.sync="currentPage"
-            :page-size="10"
-            layout="prev, pager, next, jumper"
-            :total="radarTotal">
-            </el-pagination>
-        </div> -->
     </div>
 </template>
 
@@ -189,7 +177,7 @@ export default {
             
             dialogEditRadar: false,
             editRadarName: "",
-            editRadarState: "",
+            editRadarState: null,
             editSortValue: "",
             editPlateList: [],
 
@@ -202,32 +190,10 @@ export default {
             }],
             isSeeValue: "",
 
-            tableData: [{
-            number: 1,
-            name: '青山绿水保护中',
-            code: 'L001',
-            comNumber: 50,
-            havePlate: "钢铁、水泥",
-            state: "待发布",
-            stateCode: 1,
-            sort: 1,
-            sen: "是",
-            senBoolen: true,
-            }, {
-            number: 2,
-            name: '金融开放全球化',
-            code: 'L002',
-            comNumber: 60,
-            havePlate: "基建、海洋",
-            state: "已发布",
-            stateCode: 2,
-            sort: 2,
-            sen: "否",
-            senBoolen: true,
-            }],
             multipleSelection: [],
 
-            currentPage: 1
+            pageIndex: 1,
+            pageSize: 10
         }
     },
     created() {
@@ -249,10 +215,19 @@ export default {
             console.log(row);
             this.dialogEditRadar = true;
             //
-            // this.editRadarName = row.name;
-            // this.editPlateList = row.havePlate.split("、");
-            // this.editSortValue = row.sort;
-            // this.editRadarState = row.stateCode;
+            this.editRadarName = row.title;
+            // this.editPlateList = row.blockSummary;
+            this.editSortValue = row.seqIndex;
+            if(row.statusTitle == "默认") {
+                this.editRadarState = 3;
+            }
+            if(row.statusTitle == "发布中") {
+                this.editRadarState = 1;
+            }
+            if(row.statusTitle == "已上线") {
+                this.editRadarState = 2;
+            }
+            // this.editRadarState = row.seqIndex;
         },
         //关闭编辑雷达
         closeEditRadar() {
@@ -275,7 +250,6 @@ export default {
         },
         //删除雷达
         deleteRowRadar(row) {
-            console.log(row);
             this.$confirm('是否确认删除?', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
