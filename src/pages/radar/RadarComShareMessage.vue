@@ -70,6 +70,42 @@
                 <el-input v-model="searchShearsName" placeholder="请输入股票名称"></el-input>
                 <button>搜索</button>
             </div>
+            <div class="el-more-search">
+                <div class="el-radar">
+                    雷达
+                    <el-select v-model="radarSearch" placeholder="请选择雷达">
+                        <el-option
+                        v-for="item in radarList"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                        </el-option>
+                    </el-select>
+                </div>
+                <div class="el-plate">
+                    板块
+                    <el-select v-model="plateSearch" placeholder="请选择板块">
+                        <el-option
+                        v-for="item in plateList"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                        </el-option>
+                    </el-select>
+                </div>
+                <div class="el-sendeg">
+                    敏感度
+                    <el-select v-model="senSearch" placeholder="请选择敏感度">
+                        <el-option
+                        v-for="item in senList"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                        </el-option>
+                    </el-select>
+                </div>
+                <button @click="screenClick">筛选</button>
+            </div>
         </div>
         <!-- 列表展示区 -->
         <div class="el-compradar-list">
@@ -121,11 +157,24 @@
             </el-table-column>
             </el-table>
         </div>
+        <!-- 分页器 -->
+        <div class="el-compage">
+            <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page.sync="currentPage"
+            :page-size="pageSize"
+            layout="prev, pager, next, jumper"
+            background
+            :total="1000">
+            </el-pagination>
+        </div>
     </div>
 </template>
 
 <script>
 import AddRadarShareMessageBox from './AddRadarShareMessageBox';
+import Radar from '../../api/radar';
 export default {
     name: "radarComShareMessage",
     components: {
@@ -139,7 +188,9 @@ export default {
             editRadarName: "",
             editPlateName: "",
             editSenName: "",
-            
+
+            currentPage: 1,
+            pageSize: 10,
             //
             radarSearch: "",
             plateSearch: "",
@@ -175,7 +226,30 @@ export default {
             }]
         }
     },
+    created() {
+        //暂时注释
+        // this.radarDropDown();
+        // this.consStock();
+    },
     methods: {
+        //雷达下拉选择
+        radarDropDown() {
+            Radar.radarDropDown();
+        },
+        //成分股
+        consStock() {
+            let block = {
+                blockId: "",
+                gnId: "",
+                industryId: "",
+                pageIndex: this.currentPage,
+                pageSize: this.pageSize,
+                radarId: "",
+                sensLevel: "",
+                title: "",
+            }
+            Radar.consStock(block);
+        },
         addComShares() {
             this.$store.commit("radar/SET_DIALOG_ADD_COM_SHARES", true);
         },
@@ -214,6 +288,22 @@ export default {
         },
         changeEditSen(e) {
             console.log(e.target.value);
+        },
+        //筛选、雷达、板块敏感度
+        screenClick() {
+            let radarIsexist = this.radarSearch || this.plateSearch;
+            if(radarIsexist || this.senSearch) {
+               console.log("雷达存在的业务逻辑");
+            } else {
+                console.log("请选择需要筛选的条件");
+            }
+        },
+        //分页
+        handleSizeChange(val) {
+            console.log(`每页 ${val} 条`);
+        },
+        handleCurrentChange(val) {
+            console.log(`当前页: ${val}`);
         }
     }
 }

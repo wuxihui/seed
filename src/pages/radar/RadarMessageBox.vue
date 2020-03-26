@@ -42,9 +42,9 @@
                 <div class="el-radar-state">
                     雷达状态
                     <el-radio-group v-model="radarState">
-                        <el-radio :label="1">待发布</el-radio>
-                        <el-radio :label="2">已发布</el-radio>
-                        <el-radio :label="3">已停用</el-radio>
+                        <el-radio :label="2">发布中</el-radio>
+                        <el-radio :label="4">已上线</el-radio>
+                        <el-radio :label="0">已停用</el-radio>
                     </el-radio-group>
                 </div>
                 <div class="el-display-sort">
@@ -74,8 +74,8 @@ export default {
             radarName: "",
             createPlateList: [],
             senValue: false,
-            radarState: 0,
-            sortValue: null,
+            radarState: 2,
+            sortValue: 100,
             // senList: [
             //     { value: "1", label: "中间" },
             //     { value: "2", label: "外延" }
@@ -92,8 +92,6 @@ export default {
             this.radarName = "";
             this.createPlateList = "";
             this.senValue = false;
-            this.radarState = 0;
-            this.sortValue = "";
         },
         dialogCreateRadarTrue() {
             if(this.radarName) {

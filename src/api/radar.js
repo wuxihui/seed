@@ -5,22 +5,13 @@ import { Message } from "element-ui";
 const Radar = {
     //
     getRadarInforList: function(searchData) {
-        let $this = window.vue;
         //
         let data = {
             title: searchData.title,
             token: searchData.token
-        };
+        }; 
         const url = "/api/v2/sc/admin/radars";
-        http.post(url, data).then(res => {
-            console.log("getRadarInforList:", res);
-            if(res) {
-                if(res.code === 0) {
-                    $this.$store.commit("radar/SET_RADAR_TOTAL", res.total);
-                    $this.$store.dispatch("radar/setRadarList", res.data);
-                }
-            }
-        }) 
+        return http.post(url, data)
     },
     //
     deleteRadar: function(row) {
@@ -61,7 +52,7 @@ const Radar = {
                         message: res.msg,
                         type: "success",
                         offset: window.innerHeight / 2
-                    });
+                    });    
                 }
             }
         })
@@ -69,14 +60,58 @@ const Radar = {
     //
     eidtRadar: function(id) {
         //
-        const url = "/api/v2/sc/admin/radar";
-        http.get(url, id).then(res => {
-            console.log("eidtRadar:", res);
+        const url = "/api/v2/sc/admin/radar/" + id;
+        return http.get(url);
+    },
+    //
+    updateRadar: function(data) {
+       //
+       const url = "/api/v2/sc/admin/radar";
+       return http.put(url, data)
+    },
+    //
+    releaseRadar: function(id) {
+        let $this = window.vue;
+        //
+        const url = "/api/v2/sc/admin/radar/publish/" + id;
+        http.post(url).then(res => {
+            console.log("releaseRadar:", res);
             if(res) {
                 if(res.code === 0) {
-                    console.log(888);
+                    Message({
+                        message: res.msg,
+                        type: "success",
+                        offset: window.innerHeight / 2
+                    })
+                    console.log(889);
+                    console.log(res.data);
+                    $this.$store.dispatch("radar/setOpenRadar", res.data);
                 }
             }
+        })
+    },
+    radarDropDown: function() {
+        //
+        const url = "/api/v2/sc/admin/radars/prepare";
+        http.get(url).then(res => {
+            console.log("radarDropDown:", res);
+        })
+    },
+    consStock:function(block) {
+        //
+        let data = {
+            blockId: block.blockId || "",
+            gnId: block.gnId || "",
+            industryId: block.industryId || "",
+            pageIndex: block.pageIndex,
+            pageSize: block.pageSize,
+            radarId: block.radarId || "",
+            sensLevel: block.sensLevel || "",
+            title: block.title || "",
+        };
+        const url = "/api/v2/sc/admin/radar/stocks/query";
+        http.post(url, data).then(res => {
+            console.log("consStock:", res);
         })
     }
 }

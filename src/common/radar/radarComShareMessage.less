@@ -54,6 +54,29 @@
                 cursor: pointer;
             }
         }
+        //
+        .el-more-search {
+            display: flex;
+            margin: 20px 0;
+            /deep/.el-input__inner {
+                width: 180px;
+                margin-left: 5px;
+            }
+            .el-plate {
+                margin: 0 60px;
+            }
+            button {
+                margin-left: 100px;
+                color: @head;
+                border: 1px solid @head;
+                width: 100px;
+                height: 37px;
+                border-radius: 5px;
+                font-size: 16px;
+                outline: none;
+                cursor: pointer;
+            }
+        }
     }
     // 编辑雷达
     .el-edit-content {
@@ -83,5 +106,9 @@
         .el-edit-sen {
             margin-left: 12px;
         }
+    }
+    //分页
+    .el-compage {
+        margin: 30px 0;
     }
 }
