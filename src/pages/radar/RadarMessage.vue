@@ -211,6 +211,15 @@ export default {
         this.getRadarInforList();
     },
     methods: {
+        isContained() {
+            let arr1 = [0,1,2,3,4,5];
+            let arr2 = [0,4,6,1,3,9];
+            for(let i=0; i<arr2.length; i++) {
+                if(arr1.indexOf(arr2[i]) == -1) {
+                    console.log(arr2[i]);
+                }
+            }
+        },
         //搜索雷达
         getRadarInforList() {
             let allTitle = { title: "", token: this.rdxgStatusToken.token };    
@@ -287,61 +296,46 @@ export default {
         },
         //修改编辑雷达
         editRadarModify() {
-            // let itemi = {};
+            let arr1 = [{id:1, title: "国产芯片"}, {id: 2, title: "5G"}, {id: 3, title: "云计算"}, {id: 4, title: "云服务"}];
+            let arr2 = [{id:1, title: "国产芯片"}, {id:2, title: "wxh"}, {id: 3, title: "云计算"}, {id: 4, title: "云服务"}];
+            let title = [];
+            for(let item1 of arr1) {
+                for(let item2 of arr2) {
+                    if(item1.title == item2.title) {
+                        console.log(item2.title);
+                        console.log(item2.id);
+                        title.push(item2.title);
+                        console.log(title);
+                    }
+                }
+            }
+            for(let i=0, len=arr2.length; i<len; i++) {
+                let itemi = arr2[i];
+                if(title.indexOf(itemi.title) == -1) {
+                    console.log(itemi.title);
+                }
+            }
            console.log(this.originPlateList);
            console.log(this.editPlateList);
-           let itemi = {};
-           let itemj = {};
-            // for(let i=0; i<this.editPlateList.length; i++) {
-            //    itemi = this.editPlateList[i];
-               
-            //    for(let j=0; j<this.originPlateList.length; j++) {
-            //         itemj = this.originPlateList[j];
-                    
-            //         if(itemi.title != itemj.title) {
-            //             console.log(888);
-                        
-            //             console.log(this.editPlateList[0]);
-            //             console.log(this.originPlateList[0]);
-            //             console.log(itemi.title);
-            //             console.log(itemj.title);
-            //             return;
-            //         }
-            //     }
-            // }
-            
-            var arr1 = [0,1,2,3,4,5];
-            var arr2 = [0,4,6,1,3,9];
-            function getArrDifference(arr1, arr2) {
-                    return arr1.concat(arr2).filter(function(v, i, arr) {
-                        return arr.indexOf(v) === arr.lastIndexOf(v);
-                    });
+           let newBlockTitleArr = [];
+           if(this.originPlateList.length > 0) {
+              for(let itemi of this.originPlateList) {
+                for(let itemj of this.editPlateList) {
+                    if(itemi.title == itemj.title) {
+                        newBlockTitleArr.push(itemj.title);
+                    }
                 }
-            console.log(getArrDifference(arr1,arr2));
+             }
+              for(let i=0, len=this.editPlateList.length; i<len; i++) {
+                let itemi = this.editPlateList[i];
+                if(newBlockTitleArr.indexOf(itemi.title) == -1) {
+                    console.log(itemi.title);
+                }
+            }
+           }
             
-            // if(this.editPlateList.length == this.originPlateList.length) {
-            //     if(itemi.title != itemj.title) {
-            //         console.log(666);
-            //         console.log(this.editPlateList);
-            //         console.log(itemi.title);
-            //         console.log(itemj.title);
-            //     }
-            // } else {
-            //     if(itemi.title != itemj.title) {
-            //         console.log(this.editPlateList);
-            //     }
-            // }
-            // if(itemi.title != itemj.title) {
-            //     console.log(888);
-            //     console.log(itemj.title);
-            //     console.log(itemi.title);
-            // }
-            // console.log(this.originPlateList);
             
-            // console.log(newBlockTitleArr);
-            // console.log(itemi.title);
-            // newBlockTitleArr.push(itemi.title);
-            // console.log(newBlockTitleArr);
+           
             
             let radarParams = {
                 id: this.editRadar.id,
