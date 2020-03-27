@@ -18,7 +18,7 @@
                 <select name="editRadar" @change="changeEditRadar">
                     <option value="" selected disabled style="display: none">{{editRadarName}}</option>
                     <option 
-                        v-for="item in radarList" 
+                        v-for="item in radarNameList" 
                         :key="item.value"
                         :label="item.label"
                         :value="item.value"
@@ -31,7 +31,7 @@
                 <select name="editPlate" @change="changeEditPlate">
                     <option value="" selected disabled style="display: none">{{editPlateName}}</option>
                     <option 
-                        v-for="item in plateList" 
+                        v-for="item in radarBlocksList" 
                         :key="item.value" 
                         :label="item.label"
                         :value="item.value"
@@ -44,7 +44,7 @@
                 <select name="eidtSen" @change="changeEditSen">
                     <option value="" selected disabled style="display: none">{{editSenName}}</option>
                     <option 
-                        v-for="item in senList" 
+                        v-for="item in radarSenList" 
                         :key="item.value" 
                         :value="item.vaule" 
                         :label="item.label"
@@ -73,34 +73,34 @@
             <div class="el-more-search">
                 <div class="el-radar">
                     雷达
-                    <el-select v-model="radarSearch" placeholder="请选择雷达">
+                    <el-select v-model="radarSearch" placeholder="请选择雷达" @change="selectRadarName">
                         <el-option
-                        v-for="item in radarList"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
+                        v-for="item in radarNameList"
+                        :key="item.id"
+                        :label="item.title"
+                        :value="item.id">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="el-plate">
                     板块
-                    <el-select v-model="plateSearch" placeholder="请选择板块">
+                    <el-select v-model="plateSearch" placeholder="请选择板块" @change="selectBlocksClick">
                         <el-option
-                        v-for="item in plateList"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
+                        v-for="item in radarBlocksList"
+                        :key="item.id"
+                        :label="item.title"
+                        :value="item.id">
                         </el-option>
                     </el-select>
                 </div>
                 <div class="el-sendeg">
                     敏感度
-                    <el-select v-model="senSearch" placeholder="请选择敏感度">
+                    <el-select v-model="senSearch" placeholder="请选择敏感度" @change="selectSenClick">
                         <el-option
-                        v-for="item in senList"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
+                        v-for="item in radarSenList"
+                        :key="item.id"
+                        :label="item.title"
+                        :value="item.id">
                         </el-option>
                     </el-select>
                 </div>
@@ -175,10 +175,14 @@
 <script>
 import AddRadarShareMessageBox from './AddRadarShareMessageBox';
 import Radar from '../../api/radar';
+import { mapState } from 'vuex'
 export default {
     name: "radarComShareMessage",
     components: {
         "addRadar-Share-messageBox": AddRadarShareMessageBox
+    },
+    computed: {
+        ...mapState("radar", ["radarNameList", "radarBlocksList", "radarSenList"])
     },
     data() {
         return {
@@ -191,22 +195,15 @@ export default {
 
             currentPage: 1,
             pageSize: 10,
+
             //
+            radarId: null,
+            blockId: null,
+            senId: null,
+
             radarSearch: "",
             plateSearch: "",
             senSearch: "",
-            radarList: [
-                { value: "1", label: "金融开放全球化" },
-                { value: "2", label: "外来的和尚会念经" }
-            ],
-            plateList: [
-                { value: "1", label: "基建" },
-                { value: "2", label: "深港通" }
-            ],
-            senList: [
-                { value: "1", label: "中间" },
-                { value: "2", label: "外延" }
-            ],
             
             //
             tableData: [{
@@ -227,9 +224,8 @@ export default {
         }
     },
     created() {
-        //暂时注释
-        // this.radarDropDown();
-        // this.consStock();
+        this.radarDropDown();
+        this.lookUpCompBlock();
     },
     methods: {
         //雷达下拉选择
@@ -237,18 +233,12 @@ export default {
             Radar.radarDropDown();
         },
         //成分股
-        consStock() {
+        lookUpCompBlock() {
             let block = {
-                blockId: "",
-                gnId: "",
-                industryId: "",
                 pageIndex: this.currentPage,
                 pageSize: this.pageSize,
-                radarId: "",
-                sensLevel: "",
-                title: "",
             }
-            Radar.consStock(block);
+            Radar.lookUpCompBlock(block);
         },
         addComShares() {
             this.$store.commit("radar/SET_DIALOG_ADD_COM_SHARES", true);
@@ -271,15 +261,6 @@ export default {
         editRadarMessageTrue() {
             this.dialogEditRadarMessage = false;
         },
-        changeRadarName(val) {
-            console.log(val);
-        },
-        changePlateName(val) {
-            console.log(val);
-        },
-        changeSenName(val) {
-            console.log(val);
-        },
         changeEditRadar(e) {
             console.log(e.target.value);
         },
@@ -289,14 +270,31 @@ export default {
         changeEditSen(e) {
             console.log(e.target.value);
         },
+        //选择雷达
+        selectRadarName(val) {
+           console.log("雷达id", val);
+           this.radarId = val;
+           Radar.radarLinkDropDown(val);
+        },
+        //选择板块
+        selectBlocksClick(val) {
+            this.blockId = val;
+        },
+        //选择敏感度
+        selectSenClick(val) {
+            this.senId = val;
+        },
         //筛选、雷达、板块敏感度
         screenClick() {
-            let radarIsexist = this.radarSearch || this.plateSearch;
-            if(radarIsexist || this.senSearch) {
-               console.log("雷达存在的业务逻辑");
-            } else {
-                console.log("请选择需要筛选的条件");
-            }
+           if(this.radarId) {
+               console.log("搜索");
+           } else {
+               this.$message({
+                   message: "请输入搜索雷达",
+                   type: "warning",
+                   offset: window.innerHeight / 2
+               })
+           }
         },
         //分页
         handleSizeChange(val) {

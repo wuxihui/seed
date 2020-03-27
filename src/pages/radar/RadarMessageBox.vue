@@ -8,13 +8,13 @@
             <div class="el-content">
                 <div class="el-radar-name">
                     雷达名称
-                    <input type="text" v-model="radarName" />
+                    <input type="text" v-model.trim="radarName" />
                 </div>
                 <div class="el-radar-plate">
                     <p>创建板块</p>
                     <div class="el-addplate-button">
                         <div v-for="(v, i) in createPlateList" :key="i" class="el-add-palte">
-                            <input type="text" v-model="createPlateList[i]" :placeholder="'请输入板块' + (i + 1) + '名字'"/>
+                            <input type="text" v-model.trim="createPlateList[i]" :placeholder="'请输入板块' + (i + 1) + '名字'"/>
                             <span>板块{{i + 1}}</span>
                             <img src="@/imgs/fork.png" @click="deletePlate(i)" />
                         </div>
@@ -27,18 +27,6 @@
                     v-model="senValue">
                     </el-switch>
                 </div>
-                <!-- <div class="el-sen-grade" v-if="senValue">
-                    所属敏感度
-                    <select name="sen" @change="changeBelongSen">
-                        <option selected disabled style="display: none" value="">请选择所属敏感度</option>
-                        <option
-                        v-for="item in senList"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
-                        ></option>
-                    </select>
-                </div> -->
                 <div class="el-radar-state">
                     雷达状态
                     <el-radio-group v-model="radarState">
@@ -75,11 +63,7 @@ export default {
             createPlateList: [],
             senValue: false,
             radarState: 2,
-            sortValue: 100,
-            // senList: [
-            //     { value: "1", label: "中间" },
-            //     { value: "2", label: "外延" }
-            // ]
+            sortValue: 100
         }
     },
     methods: {
@@ -93,33 +77,70 @@ export default {
             this.createPlateList = "";
             this.senValue = false;
         },
-        dialogCreateRadarTrue() {
-            if(this.radarName) {
-                let regexp = /^[1-9]+[0-9]*$/;
-                let radar = {
-                    title: this.radarName,
-                    statusId: this.radarState,
-                    seqIndex: this.sortValue,
-                    sensitivityFlag: this.senValue,
-                    blockTitles: this.createPlateList
-                };
-                if(this.sortValue) {
-                    if(regexp.test(this.sortValue)) {
-                        for(let i=0; i<this.radarList.length; i++) {
-                            let itemi = this.radarList[i].seqIndex;
-                            if(this.sortValue == itemi) {
-                                this.$message({
-                                    message: "该展示顺序已被占用",
-                                    type: "warning",
-                                    offset: window.innerHeight / 2
-                                });
-                                return;
-                            }
+        //
+        buildRadar() {
+            let searchData = {
+                title: "",
+                token: this.rdxgStatusToken.token
+            };
+            let regexp = /^[1-9]+[0-9]*$/;
+            let radar = {
+                title: this.radarName.trim(),
+                statusId: this.radarState,
+                seqIndex: this.sortValue,
+                sensitivityFlag: this.senValue,
+                blockTitles: this.createPlateList
+            };
+            if(regexp.test(this.sortValue)) {
+                for(let i=0; i<this.radarList.length; i++) {
+                    let itemi = this.radarList[i].seqIndex;
+                    if(this.sortValue == itemi) {
+                        this.$message({
+                            message: "该展示顺序已被占用",
+                            type: "warning",
+                            offset: window.innerHeight / 2
+                        });
+                        return;
+                    }
+                }
+                Radar.buildRadar(radar).then(res => {
+                    if(res) {
+                        if(res.code === 0) {
+                            this.$message({
+                                message: res.msg,
+                                type: "success",
+                                offset: window.innerHeight / 2
+                            });
+                            this.empty();
+                            this.$store.commit("radar/SET_DIALOG_CREATE_RADAR", false);
+                            Radar.getRadarInforList(searchData);
                         }
-                        Radar.buildRadar(radar);
-                        location.reload();
-                        this.$store.commit("radar/SET_DIALOG_CREATE_RADAR", false);
-                        this.empty();
+                    }
+                });
+            } 
+        },
+        //
+        dialogCreateRadarTrue() {
+            
+            if(this.radarName) {
+                if(this.createPlateList.length > 0) {
+                    let itemi = "";
+                    for(let i=0; i<this.createPlateList.length; i++) {
+                        itemi = this.createPlateList[i];
+                        if(!itemi) {
+                            this.$message({
+                                message: "请填写板块名称",
+                                type: "warning",
+                                offset: window.innerHeight / 2
+                            })
+                        } 
+                    }
+                    if(itemi) {
+                        this.buildRadar();
+                    }
+                } else if(this.createPlateList.length == 0) {
+                    if(this.sortValue) {
+                        this.buildRadar();
                     } else {
                         this.$message({
                             message: "输入格式不正确",
@@ -127,12 +148,6 @@ export default {
                             offset: window.innerHeight / 2
                         })
                     }
-                } else {
-                    this.$message({
-                        message: "请输入展示顺序",
-                        type: "warning",
-                        offset: window.innerHeight / 2
-                    })
                 }
             } else {
                 this.$message({

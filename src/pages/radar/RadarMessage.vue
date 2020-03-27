@@ -12,13 +12,13 @@
             <div class="el-content">
                 <div class="el-radar-name">
                     雷达名称
-                    <input type="text" v-model="editRadarName" />
+                    <input type="text" v-model.trim="editRadarName" />
                 </div>
                 <div class="el-radar-plate">
                     <p>编辑板块</p>
                     <div class="el-addplate-button">
                         <div v-for="(v, i) in editPlateList" :key="i" class="el-add-palte">
-                            <input type="text" v-model="editPlateList[i].title" :placeholder="'请输入板块' + (i + 1) + '名字'"/>
+                            <input type="text" v-model.trim="editPlateList[i].title" :placeholder="'请输入板块' + (i + 1) + '名字'"/>
                             <span>板块{{i + 1}}</span>
                             <img src="@/imgs/fork.png" @click="deleteEditPlate(v, i)" />
                         </div>
@@ -35,7 +35,7 @@
                 </div>
                 <div class="el-display-sort">
                     展示排序
-                    <input type="text" v-model="editSortValue" />
+                    <input type="text" v-model.trim="editSortValue" />
                 </div>
             </div>
             <span slot="footer" class="dialog-footer">
@@ -50,13 +50,7 @@
             <p @click="createRadarClick">创建</p>
         </div>
         <!-- 条件筛选区 -->
-        <div class="el-radar-condition">
-            <div class="el-radarcon-name">
-                <p>雷达名称</p>
-                <el-input v-model="radarConName" placeholder="请输入雷达名称"></el-input>
-                <button @click="searchRadar">搜索</button>
-            </div>
-        </div>
+        <radar-search></radar-search>
         <!-- 列表表格区 -->
         <div class="el-result-list">
             <el-table
@@ -163,20 +157,22 @@
 
 <script>
 import RadarMessageBox from './RadarMessageBox';
+import RadarSearch from "./RadarSearch";
 import { mapState } from 'vuex';
 import Radar from '../../api/radar';
 export default {
     name: "radar",
     components: {
-        "radar-message-box": RadarMessageBox
+        "radar-message-box": RadarMessageBox,
+        "radar-search": RadarSearch
     },
     computed: {
         ...mapState('app', ['rdxgStatusToken']),
-        ...mapState('radar', ['openRadar'])
+        ...mapState('radar', ['openRadar', 'radarList'])
     },
     data() {
         return {
-            radarList: [],
+            //编辑雷达区
             editRadar: {},
             remBlockIdArr: [],
             newBlockTitleArr: [],
@@ -193,16 +189,7 @@ export default {
             editSortValue: null,
             editPlateList: [],
             originPlateList: [],
-
-            isSees: [{
-            value: '1',
-            label: '是'
-            }, {
-            value: '2',
-            label: '否'
-            }],
-            isSeeValue: "",
-
+            //全选
             multipleSelection: []
         }
     },
@@ -211,32 +198,13 @@ export default {
         this.getRadarInforList();
     },
     methods: {
-        isContained() {
-            let arr1 = [0,1,2,3,4,5];
-            let arr2 = [0,4,6,1,3,9];
-            for(let i=0; i<arr2.length; i++) {
-                if(arr1.indexOf(arr2[i]) == -1) {
-                    console.log(arr2[i]);
-                }
-            }
-        },
         //搜索雷达
         getRadarInforList() {
             let allTitle = { title: "", token: this.rdxgStatusToken.token };    
-            Radar.getRadarInforList(allTitle).then(res => {
-                console.log("getRadarInforList:", res);
-                if(res) {
-                    if(res.code === 0) {
-                        this.radarList = res.data;
-                    }
-                }
-            });
+            Radar.getRadarInforList(allTitle);
         },
         createRadarClick() {
             this.$store.commit("radar/SET_DIALOG_CREATE_RADAR", true);
-        },
-        changeIsSeeValue(val) {
-            console.log(val);
         },
         handleSelectionChange(val) {
             this.multipleSelection = val;
@@ -251,16 +219,8 @@ export default {
         },
         //开启
         openClick(row) {
-            let searchData = {
-                title: "",
-                token: this.rdxgStatusToken.token
-            }
-            console.log(4567777);
-            console.log(this.radarList);
-            console.log(this.openRadar);
             if(row.statusId != 4) {
                 Radar.releaseRadar(row.id);
-                Radar.getRadarInforList(searchData);
             }
         },
          //关闭编辑雷达
@@ -274,7 +234,9 @@ export default {
                 if(res) {
                     if(res.code === 0) {
                         this.editRadar = res.data;
-                        this.originPlateList = this. _.cloneDeep(res.data.blocks);
+                        if(res.data.blocks.length > 0) {
+                            this.originPlateList = this._.cloneDeep(res.data.blocks);
+                        }
                         if(Object.keys(this.editRadar).length > 0) {
                             this.dialogEditRadar = true;
                             this.editRadarName = this.editRadar.title;
@@ -288,36 +250,52 @@ export default {
         },
         //删除板块
         deleteEditPlate(v, i) {
-            console.log(v.id);
-            console.log(i);
             this.remBlockIdArr.push(v.id);
-            console.log(this.remBlockIdArr);
             this.editPlateList.splice(i, 1);
         },
         //修改编辑雷达
         editRadarModify() {
-            let arr1 = [{id:1, title: "国产芯片"}, {id: 2, title: "5G"}, {id: 3, title: "云计算"}, {id: 4, title: "云服务"}];
-            let arr2 = [{id:1, title: "国产芯片"}, {id:2, title: "wxh"}, {id: 3, title: "云计算"}, {id: 4, title: "云服务"}];
-            let title = [];
-            for(let item1 of arr1) {
-                for(let item2 of arr2) {
-                    if(item1.title == item2.title) {
-                        console.log(item2.title);
-                        console.log(item2.id);
-                        title.push(item2.title);
-                        console.log(title);
-                    }
-                }
-            }
-            for(let i=0, len=arr2.length; i<len; i++) {
-                let itemi = arr2[i];
-                if(title.indexOf(itemi.title) == -1) {
-                    console.log(itemi.title);
-                }
-            }
-           console.log(this.originPlateList);
-           console.log(this.editPlateList);
+           let regexp = /^.{1,6}$/;
            let newBlockTitleArr = [];
+        if(!this.editRadarName) {
+            this.$message({
+                message: "请输入板块名称",
+                type: "warning",
+                offset: window.innerHeight / 2
+            });
+            return;
+        } else {
+            if(!regexp.test(this.editRadarName)) {
+                this.$message({
+                    message: "雷达名称过长", 
+                    type: "warning",
+                    offset: window.innerHeight / 2
+                });
+                return;
+            }
+        }
+        if(this.editPlateList.length > 0) {
+            for(let i=0; i<this.editPlateList.length; i++) {
+                let itemi = this.editPlateList[i];
+                if(itemi.title) {
+                    if(!regexp.test(itemi.title)) {
+                        this.$message({
+                                message: "板块名称过长",
+                                type: "warning",
+                                offset: window.innerHeight / 2
+                        });
+                        return;
+                    }
+                } else {
+                    this.$message({
+                        message: "请输入板块名称",
+                        type: "warning",
+                        offset: window.innerHeight / 2
+                    });
+                    return;
+                }
+            }
+        } 
            if(this.originPlateList.length > 0) {
               for(let itemi of this.originPlateList) {
                 for(let itemj of this.editPlateList) {
@@ -326,17 +304,26 @@ export default {
                     }
                 }
              }
-              for(let i=0, len=this.editPlateList.length; i<len; i++) {
+            //
+            for(let i=0, len=this.editPlateList.length; i<len; i++) {
                 let itemi = this.editPlateList[i];
-                if(newBlockTitleArr.indexOf(itemi.title) == -1) {
-                    console.log(itemi.title);
-                }
+                if(itemi.title) {
+                       if(newBlockTitleArr.indexOf(itemi.title) == -1) {
+                            if(this.newBlockTitleArr.indexOf(itemi.title) == -1) {
+                                this.newBlockTitleArr.push(itemi.title);
+                            }
+                        }
+                    } 
             }
+           } else if(this.originPlateList.length == 0) {
+               for(let i=0; i<this.editPlateList.length; i++) {
+                   let itemi = this.editPlateList[i];
+                   if(itemi.title) {
+                        this.newBlockTitleArr.push(itemi.title);
+                   }
+               }
            }
-            
-            
-           
-            
+           //
             let radarParams = {
                 id: this.editRadar.id,
                 newBlockTitle: this.newBlockTitleArr,
@@ -344,41 +331,26 @@ export default {
                 remark: "",
                 seqIndex: this.editSortValue,
                 statusId: this.editRadarState,
-                title: this.editRadarName
+                title: this.editRadarName.trim()
             }
-            console.log(radarParams);
-            
-            // Radar.updateRadar(radarParams).then(res => {
-            //     if(res) {
-            //         if(res.code === 0) {
-            //             console.log(res);
-            //         }
-            //     }
-            // });
-            // this.dialogEditRadar = false;
-        },
-        addEditPlate() {
-            this.editPlateList.push({title: ""});
-            console.log(this.editPlateList);
-        },
-        //搜索雷达
-        searchRadar() {
-            let allTitle = { title: this.radarConName, token: this.rdxgStatusToken.token };    
-            Radar.getRadarInforList(allTitle).then(res => {
+            Radar.updateRadar(radarParams).then(res => {
                 if(res) {
                     if(res.code === 0) {
-                        if(res.data.length > 0) {
-                            this.radarList = res.data;
-                        } else if(res.data.length == 0) {
-                            this.$message({
-                                message: "雷达名称不存在",
-                                type: "warning",
-                                offset: window.innerHeight / 2
-                            })
-                        }
+                        this.$message({
+                            message: res.msg,
+                            type: "success",
+                            offset: window.innerHeight / 2
+                        });
+                        this.dialogEditRadar = false;
+                        //清空之前的数组
+                        this.newBlockTitleArr.length = 0;
+                        Radar.getRadarInforList({ title: "", token: this.rdxgStatusToken.token });
                     }
                 }
             });
+        },
+        addEditPlate() {
+            this.editPlateList.push({title: ""});
         },
         //删除雷达
         deleteRowRadar(row) {

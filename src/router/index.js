@@ -3,6 +3,25 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
+/**
+ * [异步组件加载函数]
+ * @param  {[string]} name [组件名称]
+ * @return {[promise]}      [组件]
+ */
+
+const asyncPages = (name) => {
+  return resolve => require([`@/pages/${name}`], resolve);
+}
+
+const RadarMessage = asyncPages("radar/RadarMessage");
+const RadarComShareMessage = asyncPages("radar/RadarComShareMessage");
+const PlateManagement = asyncPages("plate/PlateManagement");
+const WarZoneComponent = asyncPages("plate/WarZoneComponent");
+const PlateList = asyncPages("plate/PlateList");
+const PlateComponent = asyncPages("plate/PlateComponent");
+const CacheMessage = asyncPages("system/CacheMessage");
+const OperaTionLog = asyncPages("indexAlgorithm/OperaTionLog");
+
 const router = new VueRouter({
   routes: [
     {
@@ -13,42 +32,42 @@ const router = new VueRouter({
     {
       path: "/plateManagement",
       name: "plateManagement",
-      component: () => import("../pages/plate/PlateManagement.vue")
+      component: PlateManagement
     },
     {
       path: "/cacheMessage",
       name: "cacheMessage",
-      component: () => import('../pages/system/CacheMessage.vue')
+      component: CacheMessage
     },
     {
       path: "/warZoneComponent",
       name: "warZoneComponent",
-      component: () => import("../pages/plate/WarZoneComponent.vue")
+      component: WarZoneComponent
     },
     {
       path: "/radarMessage",
       name: "radarMessage",
-      component: () => import("../pages/radar/RadarMessage.vue")
+      component: RadarMessage
     },
     {
       path: "/radarComShareMessage",
       name: "radarComShareMessage",
-      component: () => import("../pages/radar/RadarComShareMessage.vue")
+      component: RadarComShareMessage
     },
     {
       path: "/operaTionLog",
       name: "operaTionLog",
-      component: () => import("../pages/indexAlgorithm/OperaTionLog.vue")
+      component: OperaTionLog
     },
     {
       path: "/plateList",
       name: "plateList",
-      component: () => import("../pages/plate/PlateList.vue")
+      component: PlateList
     },
     {
       path: "/plateComponent",
       name: "plateComponent",
-      component: () => import("../pages/plate/PlateComponent.vue")
+      component: PlateComponent
     },
     {
       path: "*",
