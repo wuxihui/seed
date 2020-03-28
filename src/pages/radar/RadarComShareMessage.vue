@@ -64,49 +64,7 @@
             <button @click="addComShares">添加</button>
         </div>
         <!-- 搜索条件筛选区 -->
-        <div class="el-condition-screen">
-            <div class="el-name-search">
-                <p>股票名称</p>
-                <el-input v-model="searchShearsName" placeholder="请输入股票名称"></el-input>
-                <button>搜索</button>
-            </div>
-            <div class="el-more-search">
-                <div class="el-radar">
-                    雷达
-                    <el-select v-model="radarSearch" placeholder="请选择雷达" @change="selectRadarName">
-                        <el-option
-                        v-for="item in radarNameList"
-                        :key="item.id"
-                        :label="item.title"
-                        :value="item.id">
-                        </el-option>
-                    </el-select>
-                </div>
-                <div class="el-plate">
-                    板块
-                    <el-select v-model="plateSearch" placeholder="请选择板块" @change="selectBlocksClick">
-                        <el-option
-                        v-for="item in radarBlocksList"
-                        :key="item.id"
-                        :label="item.title"
-                        :value="item.id">
-                        </el-option>
-                    </el-select>
-                </div>
-                <div class="el-sendeg">
-                    敏感度
-                    <el-select v-model="senSearch" placeholder="请选择敏感度" @change="selectSenClick">
-                        <el-option
-                        v-for="item in radarSenList"
-                        :key="item.id"
-                        :label="item.title"
-                        :value="item.id">
-                        </el-option>
-                    </el-select>
-                </div>
-                <button @click="screenClick">筛选</button>
-            </div>
-        </div>
+        <radar-comshares-search></radar-comshares-search>
         <!-- 列表展示区 -->
         <div class="el-compradar-list">
             <el-table
@@ -158,52 +116,33 @@
             </el-table>
         </div>
         <!-- 分页器 -->
-        <div class="el-compage">
-            <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page.sync="currentPage"
-            :page-size="pageSize"
-            layout="prev, pager, next, jumper"
-            background
-            :total="1000">
-            </el-pagination>
-        </div>
+        <radar-comshare-page></radar-comshare-page>
     </div>
 </template>
 
 <script>
 import AddRadarShareMessageBox from './AddRadarShareMessageBox';
+import RadarComSharePage from './RadarComSharePage';
+import RadarComSharesSearch from './RadarComSharesSearch';
 import Radar from '../../api/radar';
 import { mapState } from 'vuex'
 export default {
     name: "radarComShareMessage",
     components: {
-        "addRadar-Share-messageBox": AddRadarShareMessageBox
+        "addRadar-Share-messageBox": AddRadarShareMessageBox,
+        "radar-comshare-page": RadarComSharePage,
+        "radar-comshares-search": RadarComSharesSearch
     },
     computed: {
-        ...mapState("radar", ["radarNameList", "radarBlocksList", "radarSenList"])
+        ...mapState("radar", ["radarNameList", "radarBlocksList", "radarSenList", "currentPage"])
     },
     data() {
         return {
-            searchShearsName: "",
             dialogEditRadarMessage: false,
             editSharesName: "",
             editRadarName: "",
             editPlateName: "",
             editSenName: "",
-
-            currentPage: 1,
-            pageSize: 10,
-
-            //
-            radarId: null,
-            blockId: null,
-            senId: null,
-
-            radarSearch: "",
-            plateSearch: "",
-            senSearch: "",
             
             //
             tableData: [{
@@ -224,14 +163,9 @@ export default {
         }
     },
     created() {
-        this.radarDropDown();
         this.lookUpCompBlock();
     },
     methods: {
-        //雷达下拉选择
-        radarDropDown() {
-            Radar.radarDropDown();
-        },
         //成分股
         lookUpCompBlock() {
             let block = {
@@ -270,39 +204,6 @@ export default {
         changeEditSen(e) {
             console.log(e.target.value);
         },
-        //选择雷达
-        selectRadarName(val) {
-           console.log("雷达id", val);
-           this.radarId = val;
-           Radar.radarLinkDropDown(val);
-        },
-        //选择板块
-        selectBlocksClick(val) {
-            this.blockId = val;
-        },
-        //选择敏感度
-        selectSenClick(val) {
-            this.senId = val;
-        },
-        //筛选、雷达、板块敏感度
-        screenClick() {
-           if(this.radarId) {
-               console.log("搜索");
-           } else {
-               this.$message({
-                   message: "请输入搜索雷达",
-                   type: "warning",
-                   offset: window.innerHeight / 2
-               })
-           }
-        },
-        //分页
-        handleSizeChange(val) {
-            console.log(`每页 ${val} 条`);
-        },
-        handleCurrentChange(val) {
-            console.log(`当前页: ${val}`);
-        }
     }
 }
 </script>

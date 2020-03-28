@@ -91,55 +91,14 @@ const Radar = {
         })
     },
     radarDropDown: function() {
-        let $this = window.vue;
         //
         const url = "/api/v2/sc/admin/radars/prepare";
-        http.get(url).then(res => {
-            console.log("radarDropDown:", res);
-            if(res) {
-                if(res.code === 0) {
-                    let radarNameList = [];
-                    for(let i=0; i<res.data.length; i++) {
-                        let itemi = res.data[i];
-                        radarNameList.push({ title: itemi.title, id: itemi.id });
-                    }
-                    $this.$store.commit("radar/SET_RADAR_NAME_LIST", radarNameList)
-                }
-            }
-        })
+        return http.get(url);
     },
     radarLinkDropDown: function(id) {
-        let $this = window.vue;
         //
         const url = "/api/v2/sc/admin/radar/trees/" + id;
-        http.get(url).then(res => {
-            console.log("radarLinkDropDown:", res);
-            if(res) {
-                if(res.code === 0) {
-                    let radarBlocksList = [];
-                    let radarSenList = [];
-                    if(res.data.blocks) {
-                        if(res.data.blocks.length > 0) {
-                            for(let i=0; i<res.data.blocks.length; i++) {
-                                let itemi = res.data.blocks[i];
-                                radarBlocksList.push({ id: itemi.id, title: itemi.title });
-                            }
-                        }
-                    }
-                    if(res.data.sensitivities) {
-                        if(res.data.sensitivities.length > 0) {
-                            for(let i=0; i<res.data.sensitivities.length; i++) {
-                                let itemi = res.data.sensitivities[i];
-                                radarSenList.push({ id: itemi.id, title: itemi.title });
-                            }
-                        }
-                    }
-                    //
-                    $this.$store.commit("radar/SET_RADAR_SEN_LIST", radarSenList);
-                    $this.$store.commit("radar/SET_RADAR_BLOACKS_LIST", radarBlocksList);
-                }
-            }
-        })
+        return http.get(url);
     },
     lookUpCompBlock:function(block) {
         //

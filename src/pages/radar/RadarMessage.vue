@@ -50,7 +50,7 @@
             <p @click="createRadarClick">创建</p>
         </div>
         <!-- 条件筛选区 -->
-        <radar-search></radar-search>
+        <radar-message-search></radar-message-search>
         <!-- 列表表格区 -->
         <div class="el-result-list">
             <el-table
@@ -157,14 +157,14 @@
 
 <script>
 import RadarMessageBox from './RadarMessageBox';
-import RadarSearch from "./RadarSearch";
+import RadarMessageSearch from "./RadarMessageSearch";
 import { mapState } from 'vuex';
 import Radar from '../../api/radar';
 export default {
     name: "radar",
     components: {
         "radar-message-box": RadarMessageBox,
-        "radar-search": RadarSearch
+        "radar-message-search": RadarMessageSearch
     },
     computed: {
         ...mapState('app', ['rdxgStatusToken']),
@@ -176,7 +176,7 @@ export default {
             editRadar: {},
             remBlockIdArr: [],
             newBlockTitleArr: [],
-
+            //
             radarConName: "",
             radarCreateStartDate: "",
             radarCreateEndDate: "",
@@ -255,47 +255,47 @@ export default {
         },
         //修改编辑雷达
         editRadarModify() {
-           let regexp = /^.{1,6}$/;
-           let newBlockTitleArr = [];
-        if(!this.editRadarName) {
-            this.$message({
-                message: "请输入板块名称",
-                type: "warning",
-                offset: window.innerHeight / 2
-            });
-            return;
-        } else {
-            if(!regexp.test(this.editRadarName)) {
+            let regexp = /^.{1,6}$/;
+            let newBlockTitleArr = [];
+            if(!this.editRadarName) {
                 this.$message({
-                    message: "雷达名称过长", 
+                    message: "请输入板块名称",
                     type: "warning",
                     offset: window.innerHeight / 2
                 });
                 return;
-            }
-        }
-        if(this.editPlateList.length > 0) {
-            for(let i=0; i<this.editPlateList.length; i++) {
-                let itemi = this.editPlateList[i];
-                if(itemi.title) {
-                    if(!regexp.test(itemi.title)) {
-                        this.$message({
-                                message: "板块名称过长",
-                                type: "warning",
-                                offset: window.innerHeight / 2
-                        });
-                        return;
-                    }
-                } else {
+            } else {
+                if(!regexp.test(this.editRadarName)) {
                     this.$message({
-                        message: "请输入板块名称",
+                        message: "雷达名称过长", 
                         type: "warning",
                         offset: window.innerHeight / 2
                     });
                     return;
                 }
             }
-        } 
+            if(this.editPlateList.length > 0) {
+                for(let i=0; i<this.editPlateList.length; i++) {
+                    let itemi = this.editPlateList[i];
+                    if(itemi.title) {
+                        if(!regexp.test(itemi.title)) {
+                            this.$message({
+                                    message: "板块名称过长",
+                                    type: "warning",
+                                    offset: window.innerHeight / 2
+                            });
+                            return;
+                        }
+                    } else {
+                        this.$message({
+                            message: "请输入板块名称",
+                            type: "warning",
+                            offset: window.innerHeight / 2
+                        });
+                        return;
+                    }
+                }
+            } 
            if(this.originPlateList.length > 0) {
               for(let itemi of this.originPlateList) {
                 for(let itemj of this.editPlateList) {
@@ -322,6 +322,21 @@ export default {
                         this.newBlockTitleArr.push(itemi.title);
                    }
                }
+           }
+           //是否改变编辑对象
+           let isTitle = this.editRadarName == this.editRadar.title;
+           let isState = this.editRadarState == this.editRadar.statusId;
+           let isIndex = this.editSortValue == this.editRadar.seqIndex;
+           let isTitleArr = newBlockTitleArr.length == this.originPlateList.length;
+           let isChangeRadarNS = isTitle && isState; 
+           let isChangeRadarVP = isIndex && isTitleArr;
+           if(isChangeRadarNS && isChangeRadarVP) {
+               this.$message({
+                   message: "请选择需要修改的内容",
+                   type: "warning",
+                   offset: window.innerHeight / 2
+               });
+               return;
            }
            //
             let radarParams = {

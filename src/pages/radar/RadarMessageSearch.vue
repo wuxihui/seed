@@ -2,7 +2,12 @@
     <div class="el-radar-condition">
         <div class="el-radarcon-name">
             <p>雷达名称</p>
-            <el-input v-model.trim="radarConName" placeholder="请输入雷达名称"></el-input>
+            <el-input 
+             v-model.trim="radarConName" 
+             placeholder="请输入雷达名称"
+             @keyup.delete.native="deleteSearchInput"
+             @keyup.enter.native="searchEnterRadar"
+             ></el-input>
             <button @click="searchRadar">搜索</button>
         </div>
     </div>
@@ -12,14 +17,14 @@
 import Radar from '../../api/radar';
 import { mapState } from 'vuex';
 export default {
-    name: "radarSearch",
+    name: "radarMessageSearch",
     data() {
         return {
             radarConName: "",
         }
     },
     computed: {
-        ...mapState('app', ["rdxgStatusToken"])
+        ...mapState('app', ["rdxgStatusToken"]),
     },
     methods: {
         //搜索雷达
@@ -33,9 +38,16 @@ export default {
                     type: "warning",
                     offset: window.innerHeight / 2
                 });
-                Radar.getRadarInforList(allTitle);
             }
         },
+        deleteSearchInput() {
+            Radar.getRadarInforList({ title: this.radarConName || "", token: this.rdxgStatusToken.token });
+        },
+        searchEnterRadar(e) {
+            if (e.code == "Enter") {
+                this.searchRadar();
+            }
+    },
     }
 }
 </script>

@@ -1,15 +1,13 @@
 import {  Message } from "element-ui";
-import Radar from '../../api/radar';
 export default {
     namespaced: true,
     state: {
         dialogCreateRadar: false,
         dialogAddComShares: false,
         radarList: [],
-        radarNameList: [],
-        radarBlocksList: [],
-        radarSenList: [],
         openRadar: {},
+        currentPage: 1,
+        pageSize: 10
     },
     mutations: {
         SET_DIALOG_CREATE_RADAR(state, payload) {
@@ -23,15 +21,6 @@ export default {
         },
         SET_OPEN_RADAR(state, payload) {
             state.openRadar = payload;
-        },
-        SET_RADAR_NAME_LIST(state, payload) {
-            state.radarNameList = payload;
-        },
-        SET_RADAR_BLOACKS_LIST(state, payload) {
-            state.radarBlocksList = payload;
-        },
-        SET_RADAR_SEN_LIST(state, payload) {
-            state.radarSenList = payload;
         }
     },
     actions: {
@@ -45,10 +34,6 @@ export default {
                     offset: window.innerHeight / 2
                 })
             }
-        },
-        setBuildRadar({ commit }, payload) {
-            console.log('setBuildRadar', payload, commit != null);
-            Radar.buildRadar(payload);
         }
     }
 }
