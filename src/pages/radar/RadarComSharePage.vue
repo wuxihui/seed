@@ -14,14 +14,11 @@
 
 <script>
 import Radar from "../../api/radar";
+import { mapState } from 'vuex';
 export default {
     name: "RadarComSharePage",
     computed: {
-        pageSize: {
-            get() {
-                return this.$store.state.radar.pageSize;
-            }
-        },
+        ...mapState("radar", ["pageSize"]),
         currentPage: {
             get() {
                 return this.$store.state.radar.currentPage;
