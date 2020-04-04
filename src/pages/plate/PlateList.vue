@@ -9,7 +9,8 @@ export default {
     name: "plateList",
     methods: {
         handleClick() {
-            this.commonenca.message("傻逼", "success");
+            this.message("傻逼", "success");
+            // this.$store.commit("radar/SET_COMMON_INFO", "");
         }
     }
 }

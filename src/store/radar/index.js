@@ -7,7 +7,8 @@ export default {
         radarList: [],
         openRadar: {},
         currentPage: 1,
-        pageSize: 10
+        pageSize: 10,
+        commoninfo: "",
     },
     mutations: {
         SET_DIALOG_CREATE_RADAR(state, payload) {
@@ -21,6 +22,14 @@ export default {
         },
         SET_OPEN_RADAR(state, payload) {
             state.openRadar = payload;
+        },
+        SET_COMMON_INFO(state, payload) {
+            let $this = window.vue;
+            if(payload) {
+                state.commoninfo = payload;
+            } else {
+                $this.commonenca("傻逼", "success");
+            }
         }
     },
     actions: {
