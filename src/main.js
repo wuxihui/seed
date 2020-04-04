@@ -6,11 +6,14 @@ import './styles/base.less'
 import router from './router'
 import store from './store'
 import moment from 'moment'
+import commonenca from './commonenca/index'
 import _ from "lodash"
 
 Vue.config.productionTip = false
 
 Vue.use(ElementUI)
+
+Vue.prototype.commonenca = commonenca;
 
 Vue.prototype.formatCreateUpTime = function(time) {
   //TODO:时区修正

@@ -1,12 +1,17 @@
 <template>
     <div class="el-plate-list">
-        板块列表
+        <button @click="handleClick">消息提示</button>
     </div>
 </template>
 
 <script>
 export default {
-    name: "plateList"
+    name: "plateList",
+    methods: {
+        handleClick() {
+            this.commonenca.message("傻逼", "success");
+        }
+    }
 }
 </script>
 
