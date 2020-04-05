@@ -1,4 +1,3 @@
-import {  Message } from "element-ui";
 export default {
     namespaced: true,
     state: {
@@ -9,6 +8,7 @@ export default {
         currentPage: 1,
         pageSize: 10,
         commoninfo: "",
+        time: "",
     },
     mutations: {
         SET_DIALOG_CREATE_RADAR(state, payload) {
@@ -28,20 +28,20 @@ export default {
             if(payload) {
                 state.commoninfo = payload;
             } else {
-                $this.commonenca("傻逼", "success");
+                $this.commonJS.message("傻逼", "success");
             }
+        },
+        SET_TIME(state, payload) {
+            state.time = payload;
         }
     },
     actions: {
         setRadarList({ commit }, payload) {
+            let $this = window.vue;
             if(payload.length != 0) {
                 commit("SET_RADAR_LIST", payload);
             } else {
-                Message({
-                    message: "雷达名称不存在",
-                    type: "warning",
-                    offset: window.innerHeight / 2
-                })
+               $this.commonJS.message("雷达名称不存在", "warning");
             }
         }
     }

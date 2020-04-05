@@ -11,5 +11,5 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import '~@/common/indexAlgorithm/operaTionLog.less';
+@import '~@/common/css/indexAlgorithm/operaTionLog.less';
 </style>

@@ -81,5 +81,5 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import '~@/common/plate/warZoneComponentBox.less';
+@import '~@/common/css/plate/warZoneComponentBox.less';
 </style>

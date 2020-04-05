@@ -88,11 +88,7 @@ export default {
             if(this.searchShearsName) {
                 console.log("成功");
             } else {
-                this.$message({
-                    message: "请输入股票名称",
-                    type: "warning",
-                    offset: window.innerHeight / 2
-                })
+                this.message("请输入股票名称", "warning");
             }
         },
          //选择雷达
@@ -140,11 +136,7 @@ export default {
            if(this.radarId) {
                console.log("搜索");
            } else {
-               this.$message({
-                   message: "请选择雷达名称",
-                   type: "warning",
-                   offset: window.innerHeight / 2
-               })
+               this.message("请选择雷达名称", "warning");
            }
         },
     }
@@ -152,5 +144,5 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import '~@/common/radar/radarComShareMessage.less';
+@import '~@/common/css/radar/radarComShareMessage.less';
 </style>

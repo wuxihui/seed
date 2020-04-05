@@ -147,22 +147,14 @@ export default {
             if(this.compRadarName) {
                 this.sharesList.push({ name: this.compRadarName, code: "" });
             } else {
-                this.$message({
-                    message: "请输入股票名称",
-                    type: "warning",
-                    offset: window.innerHeight / 2
-                })
+                this.message("请输入股票名称", "warning");
             }
         },
         addCompPlateMember() {
             if(this.compPlateName) {
                 this.sharesList.push({ name: this.compPlateName, code: "" });
             } else {
-                this.$message({
-                    message: "请输入板块名称",
-                    type: "warning",
-                    offset: window.innerHeight / 2
-                })
+                this.message("请输入板块名称", "warning");
             }
         },
         //搜索字符
@@ -181,18 +173,10 @@ export default {
                     } 
                 }
                 if(itemi.name.indexOf(this.sharesNameSearch) == -1) {
-                    this.$message({
-                        message: "搜索内容不存在",
-                        type: "warning",
-                        offset: window.innerHeight / 2
-                    })
+                    this.message("搜索内容不存在", "warning");
                 }
             } else {
-                this.$message({
-                    message: "请输入搜索内容",
-                    type: "warning",
-                    offset: window.innerHeight / 2
-                });
+                this.message("请输入搜索内容", "warning");
             }
         },
         //列表搜索键盘回车事件
@@ -204,5 +188,5 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import '~@/common/radar/addRadarShareMessageBox.less';
+@import '~@/common/css/radar/addRadarShareMessageBox.less';
 </style>

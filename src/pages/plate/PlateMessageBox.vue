@@ -172,5 +172,5 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import '~@/common/plate/plateMessageBox.less';
+@import '~@/common/css/plate/plateMessageBox.less';
 </style>

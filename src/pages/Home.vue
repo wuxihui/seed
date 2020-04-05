@@ -46,5 +46,5 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "~@/common/home.less";
+@import "~@/common/css/home.less";
 </style>

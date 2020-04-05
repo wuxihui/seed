@@ -209,5 +209,5 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import '~@/common/radar/radarComShareMessage.less';
+@import '~@/common/css/radar/radarComShareMessage.less';
 </style>

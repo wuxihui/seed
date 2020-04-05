@@ -33,11 +33,7 @@ export default {
             if(this.radarConName.trim()) {
                 Radar.getRadarInforList(allTitle);
             } else {
-                this.$message({
-                    message: "请输入搜索名称",
-                    type: "warning",
-                    offset: window.innerHeight / 2
-                });
+                this.message("请输入搜索名称", "warning");
             }
         },
         deleteSearchInput() {
@@ -53,5 +49,5 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import '~@/common/radar/radarMessage.less';
+@import '~@/common/css/radar/radarMessage.less';
 </style>

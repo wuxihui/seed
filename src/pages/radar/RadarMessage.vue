@@ -211,11 +211,11 @@ export default {
         },
         //格式化新建修改时间
         formatTime(time) {
-            return this.formatCreateUpTime(time);
+            return this.commonJS.formatCreateUpTime(time);
         },
         //格式化运算时间
         formatOperaTime(time) {
-            return this.formatBuildTime(time);
+            return this.commonJS.formatBuildTime(time);
         },
         //开启
         openClick(row) {
@@ -258,19 +258,11 @@ export default {
             let regexp = /^.{1,6}$/;
             let newBlockTitleArr = [];
             if(!this.editRadarName) {
-                this.$message({
-                    message: "请输入板块名称",
-                    type: "warning",
-                    offset: window.innerHeight / 2
-                });
+                this.message("请输入板块名称", "warning");
                 return;
             } else {
                 if(!regexp.test(this.editRadarName)) {
-                    this.$message({
-                        message: "雷达名称过长", 
-                        type: "warning",
-                        offset: window.innerHeight / 2
-                    });
+                    this.message("雷达名称过长", "warning");
                     return;
                 }
             }
@@ -279,19 +271,11 @@ export default {
                     let itemi = this.editPlateList[i];
                     if(itemi.title) {
                         if(!regexp.test(itemi.title)) {
-                            this.$message({
-                                    message: "板块名称过长",
-                                    type: "warning",
-                                    offset: window.innerHeight / 2
-                            });
+                            this.message("板块名称过长", "warning");
                             return;
                         }
                     } else {
-                        this.$message({
-                            message: "请输入板块名称",
-                            type: "warning",
-                            offset: window.innerHeight / 2
-                        });
+                        this.message("请输入板块名称", "warning");
                         return;
                     }
                 }
@@ -331,11 +315,7 @@ export default {
            let isChangeRadarNS = isTitle && isState; 
            let isChangeRadarVP = isIndex && isTitleArr;
            if(isChangeRadarNS && isChangeRadarVP) {
-               this.$message({
-                   message: "请选择需要修改的内容",
-                   type: "warning",
-                   offset: window.innerHeight / 2
-               });
+               this.message("请选择需要修改的内容", "warning");
                return;
            }
            //
@@ -351,11 +331,7 @@ export default {
             Radar.updateRadar(radarParams).then(res => {
                 if(res) {
                     if(res.code === 0) {
-                        this.$message({
-                            message: res.msg,
-                            type: "success",
-                            offset: window.innerHeight / 2
-                        });
+                        this.message(res.msg, "success");
                         this.dialogEditRadar = false;
                         //清空之前的数组
                         this.newBlockTitleArr.length = 0;
@@ -376,11 +352,7 @@ export default {
             }).then(() => {
                 Radar.deleteRadar(row);
             }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: '已取消删除',
-                    offset: window.innerHeight / 2
-                });          
+                this.message("已取消删除", "info");        
             });
         }
     }
@@ -388,6 +360,6 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import '~@/common/radar/radarMessage.less';
-@import "~@/common/radar/radarMessageBox.less";
+@import '~@/common/css/radar/radarMessage.less';
+@import "~@/common/css/radar/radarMessageBox.less";
 </style>

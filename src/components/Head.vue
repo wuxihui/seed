@@ -12,5 +12,5 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "~@/common/head.less";
+@import "~@/common/css/head.less";
 </style>

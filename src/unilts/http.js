@@ -1,11 +1,8 @@
 import axios from 'axios';
-import { Message } from "element-ui";
-// import { stringify } from "querystring";
 
+let $this = window.vue;
 const http = axios.create();
-
 http.defaults.baseURL = process.env.VUE_APP_TC_RD_URL;
-// http.defaults.timeout = 10000;
 
 http.interceptors.request.use(
 	config => {
@@ -34,19 +31,12 @@ http.interceptors.response.use(response => {
         return res;
     } else {
         //错误信息
-        Message({
-            type: "error",
-            message: res.msg,
-            offset: window.innerHeight / 2
-        });
+        $this.message(res.msg, "error");
         return false;
     }
 }, error => {
-    // Message({
-    //     type: "error",
-    //     //信息提示字段要和后台给的字段一致
-    //     message: error.msg
-    // })
+    //信息提示字段要和后台给的字段一致
+    // $this.message(error.msg, "error");
     console.log(error);
     
 });

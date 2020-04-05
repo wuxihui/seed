@@ -11,5 +11,5 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import '~@/common/plate/plateComponent.less';
+@import '~@/common/css/plate/plateComponent.less';
 </style>

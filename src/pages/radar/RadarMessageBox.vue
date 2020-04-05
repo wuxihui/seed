@@ -95,22 +95,14 @@ export default {
                 for(let i=0; i<this.radarList.length; i++) {
                     let itemi = this.radarList[i].seqIndex;
                     if(this.sortValue == itemi) {
-                        this.$message({
-                            message: "该展示顺序已被占用",
-                            type: "warning",
-                            offset: window.innerHeight / 2
-                        });
+                        this.message("该展示顺序已被占用", "warning");
                         return;
                     }
                 }
                 Radar.buildRadar(radar).then(res => {
                     if(res) {
                         if(res.code === 0) {
-                            this.$message({
-                                message: res.msg,
-                                type: "success",
-                                offset: window.innerHeight / 2
-                            });
+                            this.message(res.msg, "success");
                             this.empty();
                             this.$store.commit("radar/SET_DIALOG_CREATE_RADAR", false);
                             Radar.getRadarInforList(searchData);
@@ -128,11 +120,7 @@ export default {
                     for(let i=0; i<this.createPlateList.length; i++) {
                         itemi = this.createPlateList[i];
                         if(!itemi) {
-                            this.$message({
-                                message: "请填写板块名称",
-                                type: "warning",
-                                offset: window.innerHeight / 2
-                            })
+                            this.message("请填写板块名称", "warning");
                         } 
                     }
                     if(itemi) {
@@ -142,19 +130,11 @@ export default {
                     if(this.sortValue) {
                         this.buildRadar();
                     } else {
-                        this.$message({
-                            message: "输入格式不正确",
-                            type: "warning",
-                            offset: window.innerHeight / 2
-                        })
+                        this.message("输入格式不正确", "warning");
                     }
                 }
             } else {
-                this.$message({
-                    message: "请填写雷达名称",
-                    type: "warning",
-                    offset: window.innerHeight / 2
-                })
+                this.message("请填写雷达名称", "warning");
             }
         },
         //添加板块
@@ -173,5 +153,5 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "~@/common/radar/radarMessageBox.less";
+@import "~@/common/css/radar/radarMessageBox.less";
 </style>
