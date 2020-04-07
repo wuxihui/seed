@@ -44,7 +44,7 @@ export default {
             },
             topHeight: null,
             minHeight: 410,
-            maxHeight: 798,
+            maxHeight: 700,
          }
     },
     mounted() {
@@ -105,10 +105,8 @@ export default {
         return false;
       },
        // 鼠标松开
-      mouseUpHandleelse(e) {
-        console.log(8888);
+      mouseUpHandleelse() {
         window.onmousemove = null;
-        e.currentTarget.style.cursor = 'move';
       },
       pauseEvent(e){
             if(e.stopPropagation) e.stopPropagation();
@@ -118,8 +116,8 @@ export default {
             return false;
         },
 
-     leave(e) {
-         this.mouseUpHandleelse(e);
+     leave() {
+         this.mouseUpHandleelse();
      },
      down: function(e){
         e = e ||event;
