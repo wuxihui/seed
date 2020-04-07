@@ -13,6 +13,7 @@ Vue.config.productionTip = false
 Vue.use(ElementUI)
 
 Vue.prototype.commonJS = commonJS;
+Vue.prototype.ElementUI = ElementUI;
 
 Vue.prototype._ = _;
 
