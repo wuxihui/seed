@@ -2,9 +2,9 @@ import axios from 'axios';
 
 let $this = window.vue;
 const http = axios.create();
-http.defaults.baseURL = process.env.VUE_APP_TC_RD_URL;
+http.defaults.baseURL = process.env.VUE_APP_BASE_URL;
 
-http.interceptors.request.use(
+/*http.interceptors.request.use(
 	config => {
 		if (config.url.startsWith('http:')) {
 			// 站点外网的请求
@@ -22,16 +22,15 @@ http.interceptors.request.use(
 	error => {
 		return Promise.reject(error);
 	}
-);
+);*/
 
 http.interceptors.response.use(response => {
-
     let res = response.data;
     if(res.code === 0) {
         return res;
     } else {
         //错误信息
-        $this.message(res.msg, "error");
+        $this.commonJS.message(res.msg, "error");
         return false;
     }
 }, error => {

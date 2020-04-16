@@ -9,73 +9,20 @@ Vue.use(VueRouter)
  * @return {[promise]}      [组件]
  */
 
-const asyncPages = (name) => {
-  return resolve => require([`@/pages/${name}`], resolve);
+const asyncPage = (name) => {
+  return resolve => require([`@/page/${name}`], resolve);
 }
 
-const RadarMessage = asyncPages("radar/RadarMessage");
-const RadarComShareMessage = asyncPages("radar/RadarComShareMessage");
-const PlateManagement = asyncPages("plate/PlateManagement");
-const WarZoneComponent = asyncPages("plate/WarZoneComponent");
-const PlateList = asyncPages("plate/PlateList");
-const PlateComponent = asyncPages("plate/PlateComponent");
-const CacheMessage = asyncPages("system/CacheMessage");
-const OperaTionLog = asyncPages("indexAlgorithm/OperaTionLog");
+const Home = asyncPage("Home");
 
 const router = new VueRouter({
   routes: [
-    {
-    path: "/",
-    name: "index",
-    component: () => import('../pages/Index.vue'),
-    children: [
-    {
-      path: "/plateManagement",
-      name: "plateManagement",
-      component: PlateManagement
-    },
-    {
-      path: "/cacheMessage",
-      name: "cacheMessage",
-      component: CacheMessage
-    },
-    {
-      path: "/warZoneComponent",
-      name: "warZoneComponent",
-      component: WarZoneComponent
-    },
-    {
-      path: "/radarMessage",
-      name: "radarMessage",
-      component: RadarMessage
-    },
-    {
-      path: "/radarComShareMessage",
-      name: "radarComShareMessage",
-      component: RadarComShareMessage
-    },
-    {
-      path: "/operaTionLog",
-      name: "operaTionLog",
-      component: OperaTionLog
-    },
-    {
-      path: "/plateList",
-      name: "plateList",
-      component: PlateList
-    },
-    {
-      path: "/plateComponent",
-      name: "plateComponent",
-      component: PlateComponent
-    },
-    {
-      path: "*",
-      redirect: "/plateManagement"
-    }
-    ]
-  }
-]
+      { 
+        path: "/",
+        name: "home",
+        component: Home
+      }
+  ]
 })
 
 //全局路由守卫导航

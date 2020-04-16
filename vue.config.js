@@ -12,13 +12,13 @@ module.exports = {
 		host: process.env.VUE_APP_HOST,
 		port: process.env.VUE_APP_PORT, // 服务端口
 		proxy: {
-			'/api': {
-				target: 'http://uc.daohehui.com',
+			'/text': {
+				target: "http://10.0.0.47:8181",
 				ws: true,
 				changeOrigin: true,//允许跨域
 			},
 			'/tc': {
-				target: 'http://uc.daohehui.com',
+				target: "http://10.0.0.47:8181",
 				ws: true,
 				changeOrigin: true,//允许跨域
 			}

@@ -1,23 +1,56 @@
 @import "~@/styles/common/variable.less";
-
-.el-home {
-    width: 100%;
-    height: 100%;
-    /deep/.el-col {
-         height: 100%;
-         background: @eee;
-    }
-    /deep/.el-col-20 {
-        height: 100%;
-        background: @eee;
-    }
-    /deep/.el-menu-item {
-        min-width: 100px;
-    }
-    /deep/.el-submenu__title {
-        font-size: 18px;
-    }
-    /deep/.el-menu-item {
-        font-size: 16px;
-    }
+.home {
+    width: 1400px;
+    margin: 0 auto;
+    border-top: 1px solid #000000;
+    border-left: 1px solid #000000;
+    border-bottom: 1px solid #000000;
+    margin-top: 100px;
+    display: flex;
+}
+.home-left {
+    width: 700px;
+    border-right: 1px solid #000000;
+    text-align: center;
+}
+.param-right {
+    flex: 1;
+    text-align: center;
+}
+.drop-down-left {
+    padding: 10px 0;
+}
+.param-left {
+    border-top: 1px solid #000000;
+}
+.param-left .param-left-result ul li {
+    display: flex;
+}
+.param-left .param-left-content {
+    width: 320px;
+    margin: 10px auto;
+}
+.param-left /deep/.el-textarea__inner {
+    resize: none;
+    width: 550px;
+}
+.home-left /deep/.el-select {
+    width: 400px;
+}
+.param-left-name {
+    margin: 12px 10px 0 20px;
+    width: 68px;
+}
+.param-left .btn-left {
+    margin: 10px 0 10px 10px;
+}
+.result-left {
+    width:  526px;
+    min-height: 35px;
+    border: 1px solid #000000;
+    margin: 10px 0 10px 95px;
+    padding: 10px;
+}
+.result-left ul li {
+    margin: 15px 0;
 }
